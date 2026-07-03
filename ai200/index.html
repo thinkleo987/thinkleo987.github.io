@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-200 Azure AI Engineer Associate — Training Manuals</title>
+<style>
+:root {
+  --azure-blue: #0078d4;
+  --azure-dark: #003966;
+  --azure-light: #e6f3fb;
+  --border: #d0d7de;
+  --bg: #f6f8fa;
+  --text: #24292f;
+  --radius: 10px;
+  --shadow: 0 2px 8px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.08);
+  --shadow-hover: 0 8px 24px rgba(0,0,0,.14), 0 2px 8px rgba(0,0,0,.08);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* Hero */
+.hero {
+  background: linear-gradient(135deg, #001933 0%, var(--azure-dark) 40%, #005a9e 75%, #0094d9 100%);
+  color: #fff;
+  padding: 64px 48px 72px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero-inner { max-width: 960px; margin: 0 auto; position: relative; }
+.cert-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 24px;
+  padding: 6px 16px;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: .3px;
+  margin-bottom: 20px;
+}
+.cert-badge-dot {
+  width: 8px; height: 8px;
+  background: #50e6ff;
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .6; transform: scale(1.2); }
+}
+.hero h1 { font-size: 40px; font-weight: 800; line-height: 1.18; margin-bottom: 12px; }
+.hero h1 span { color: #50e6ff; }
+.hero p { font-size: 16px; opacity: .82; max-width: 640px; margin-bottom: 32px; }
+.hero-stats {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.stat-num { font-size: 26px; font-weight: 800; color: #50e6ff; line-height: 1; }
+.stat-label { font-size: 12px; opacity: .65; text-transform: uppercase; letter-spacing: .5px; }
+
+/* Main content */
+.main { max-width: 960px; margin: 0 auto; padding: 48px 24px 80px; }
+
+/* Exam weight bar */
+.weight-section { margin-bottom: 48px; }
+.weight-section h2 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  margin-bottom: 16px;
+}
+.weight-bar-wrap {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  box-shadow: var(--shadow);
+}
+.weight-bar {
+  display: flex;
+  height: 32px;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+.weight-seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  transition: opacity .2s;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.weight-seg:hover { opacity: .85; cursor: default; }
+.seg-1 { background: #0078d4; }
+.seg-2 { background: #00b7c3; }
+.seg-3 { background: #7160e8; }
+.seg-4 { background: #c239b3; }
+.weight-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: #555;
+}
+.legend-dot {
+  width: 12px; height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* Module cards grid */
+.modules-section h2 {
+  font-size: 13px;
+  font-weight: 700;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  margin-bottom: 20px;
+}
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 20px;
+}
+@media (max-width: 520px) {
+  .module-grid { grid-template-columns: 1fr; }
+  .hero { padding: 40px 24px 52px; }
+  .hero h1 { font-size: 28px; }
+}
+
+.module-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform .2s, box-shadow .2s;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+}
+.module-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+.card-accent {
+  height: 5px;
+}
+.card-accent-1 { background: linear-gradient(90deg, #0078d4, #50e6ff); }
+.card-accent-2 { background: linear-gradient(90deg, #00b7c3, #00e7d0); }
+.card-accent-3 { background: linear-gradient(90deg, #7160e8, #b89aff); }
+.card-accent-4 { background: linear-gradient(90deg, #c239b3, #f87aff); }
+
+.card-body { padding: 24px; flex: 1; }
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.card-icon {
+  width: 48px; height: 48px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.icon-1 { background: #e6f3fb; }
+.icon-2 { background: #e0fafa; }
+.icon-3 { background: #ede8ff; }
+.icon-4 { background: #fce8ff; }
+
+.card-meta { flex: 1; }
+.card-number {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: #999;
+  margin-bottom: 4px;
+}
+.card-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--azure-dark);
+  line-height: 1.3;
+}
+.card-description {
+  font-size: 13.5px;
+  color: #555;
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+.tag {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 2px 8px;
+  font-size: 11.5px;
+  color: #555;
+}
+.card-footer {
+  padding: 14px 24px;
+  border-top: 1px solid var(--border);
+  background: #fafbfc;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.card-stats {
+  display: flex;
+  gap: 16px;
+}
+.card-stat {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #777;
+}
+.card-stat-icon { font-size: 13px; }
+.card-open {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--azure-blue);
+}
+.card-open svg {
+  width: 16px; height: 16px;
+  transition: transform .2s;
+}
+.module-card:hover .card-open svg { transform: translateX(3px); }
+
+/* Info banner */
+.info-banner {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--azure-blue);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 36px;
+  font-size: 13.5px;
+  color: #555;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.info-banner-icon { font-size: 18px; flex-shrink: 0; }
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 32px 24px;
+  font-size: 12.5px;
+  color: #aaa;
+  border-top: 1px solid var(--border);
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="cert-badge">
+      <span class="cert-badge-dot"></span>
+      Microsoft Certified: Azure AI Engineer Associate
+    </div>
+    <h1>AI-200 Exam Prep<br><span>Training Manuals</span></h1>
+    <p>Comprehensive, interactive study guides covering all four exam domains. Each manual includes code examples, comparison tables, interactive flashcards, 30-question MCQ, cheat sheets, and last-minute tips.</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">4</span><span class="stat-label">Modules</span></div>
+      <div class="stat"><span class="stat-num">120</span><span class="stat-label">MCQ Questions</span></div>
+      <div class="stat"><span class="stat-num">80</span><span class="stat-label">Flashcards</span></div>
+      <div class="stat"><span class="stat-num">100%</span><span class="stat-label">Exam Coverage</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- EXAM WEIGHT BAR -->
+  <div class="weight-section">
+    <h2>Exam Domain Weights</h2>
+    <div class="weight-bar-wrap">
+      <div class="weight-bar">
+        <div class="weight-seg seg-1" style="width:27.5%" title="Containerized Solutions: 25–30%">25–30%</div>
+        <div class="weight-seg seg-2" style="width:27.5%" title="Data Management: 25–30%">25–30%</div>
+        <div class="weight-seg seg-3" style="width:22.5%" title="Azure Services: 20–25%">20–25%</div>
+        <div class="weight-seg seg-4" style="width:22.5%" title="Secure & Monitor: 20–25%">20–25%</div>
+      </div>
+      <div class="weight-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#0078d4"></div>Module 1 — Containerized Solutions (25–30%)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#00b7c3"></div>Module 2 — Data Management Services (25–30%)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#7160e8"></div>Module 3 — Connect to Azure Services (20–25%)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#c239b3"></div>Module 4 — Secure, Monitor &amp; Troubleshoot (20–25%)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INFO BANNER -->
+  <div class="info-banner">
+    <span class="info-banner-icon">&#128161;</span>
+    <span>Each manual is a self-contained HTML file with no external dependencies. Open any file directly in your browser — all styles, scripts, and content are fully embedded. Use the sidebar navigation and progress bar to track your reading.</span>
+  </div>
+
+  <!-- MODULE CARDS -->
+  <div class="modules-section">
+    <h2>Study Modules</h2>
+    <div class="module-grid">
+
+      <!-- Module 1 -->
+      <a class="module-card" href="ai200_training_manual.html">
+        <div class="card-accent card-accent-1"></div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-icon icon-1">&#128230;</div>
+            <div class="card-meta">
+              <div class="card-number">Module 1 &nbsp;·&nbsp; 25–30% of exam</div>
+              <div class="card-title">Develop Containerized Solutions on Azure</div>
+            </div>
+          </div>
+          <div class="card-description">
+            Master Azure Container Registry (ACR), Azure Container Instances (ACI), App Service containers, Azure Container Apps with KEDA scaling, and Azure Kubernetes Service (AKS). Covers Managed Identity, geo-replication, KEDA ScaledObjects, Dapr, and container monitoring.
+          </div>
+          <div class="card-tags">
+            <span class="tag">ACR</span>
+            <span class="tag">ACI</span>
+            <span class="tag">Container Apps</span>
+            <span class="tag">KEDA</span>
+            <span class="tag">AKS</span>
+            <span class="tag">Dapr</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="card-stats">
+            <span class="card-stat"><span class="card-stat-icon">&#9989;</span> 50 MCQ</span>
+            <span class="card-stat"><span class="card-stat-icon">&#127183;</span> 25 Flashcards</span>
+            <span class="card-stat"><span class="card-stat-icon">&#128340;</span> 10–12 hrs</span>
+          </div>
+          <span class="card-open">Open
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 8h10M9 4l4 4-4 4"/>
+            </svg>
+          </span>
+        </div>
+      </a>
+
+      <!-- Module 2 -->
+      <a class="module-card" href="ai200_data_management.html">
+        <div class="card-accent card-accent-2"></div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-icon icon-2">&#128202;</div>
+            <div class="card-meta">
+              <div class="card-number">Module 2 &nbsp;·&nbsp; 25–30% of exam</div>
+              <div class="card-title">Develop AI Solutions Using Azure Data Management Services</div>
+            </div>
+          </div>
+          <div class="card-description">
+            Deep-dive into Cosmos DB for NoSQL (vector search with DiskANN, VectorDistance, change feed), Azure Database for PostgreSQL (pgvector, IVFFlat/HNSW indexing, RAG patterns), and Azure Managed Redis (RediSearch vector indexing, KNN queries, cache-aside pattern).
+          </div>
+          <div class="card-tags">
+            <span class="tag">Cosmos DB</span>
+            <span class="tag">pgvector</span>
+            <span class="tag">RediSearch</span>
+            <span class="tag">RAG</span>
+            <span class="tag">DiskANN</span>
+            <span class="tag">HNSW</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="card-stats">
+            <span class="card-stat"><span class="card-stat-icon">&#9989;</span> 30 MCQ</span>
+            <span class="card-stat"><span class="card-stat-icon">&#127183;</span> 20 Flashcards</span>
+            <span class="card-stat"><span class="card-stat-icon">&#128340;</span> 8–10 hrs</span>
+          </div>
+          <span class="card-open">Open
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 8h10M9 4l4 4-4 4"/>
+            </svg>
+          </span>
+        </div>
+      </a>
+
+      <!-- Module 3 -->
+      <a class="module-card" href="ai200_azure_services.html">
+        <div class="card-accent card-accent-3"></div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-icon icon-3">&#9889;</div>
+            <div class="card-meta">
+              <div class="card-number">Module 3 &nbsp;·&nbsp; 20–25% of exam</div>
+              <div class="card-title">Connect to &amp; Consume Azure Services</div>
+            </div>
+          </div>
+          <div class="card-description">
+            Build event-driven and message-based AI solutions with Azure Service Bus (topics, subscriptions, dead-letter queue, sessions, transactions), Azure Event Grid (filters, custom events, retry policies), and Azure Functions (all trigger types, bindings, plans, Durable Functions).
+          </div>
+          <div class="card-tags">
+            <span class="tag">Service Bus</span>
+            <span class="tag">Event Grid</span>
+            <span class="tag">Azure Functions</span>
+            <span class="tag">DLQ</span>
+            <span class="tag">Durable Functions</span>
+            <span class="tag">CRON</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="card-stats">
+            <span class="card-stat"><span class="card-stat-icon">&#9989;</span> 30 MCQ</span>
+            <span class="card-stat"><span class="card-stat-icon">&#127183;</span> 20 Flashcards</span>
+            <span class="card-stat"><span class="card-stat-icon">&#128340;</span> 8–10 hrs</span>
+          </div>
+          <span class="card-open">Open
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 8h10M9 4l4 4-4 4"/>
+            </svg>
+          </span>
+        </div>
+      </a>
+
+      <!-- Module 4 -->
+      <a class="module-card" href="ai200_secure_monitor.html">
+        <div class="card-accent card-accent-4"></div>
+        <div class="card-body">
+          <div class="card-top">
+            <div class="card-icon icon-4">&#128272;</div>
+            <div class="card-meta">
+              <div class="card-number">Module 4 &nbsp;·&nbsp; 20–25% of exam</div>
+              <div class="card-title">Secure, Monitor &amp; Troubleshoot Azure Solutions</div>
+            </div>
+          </div>
+          <div class="card-description">
+            Secure AI solutions with Azure Key Vault (RBAC roles, secret rotation via Event Grid, Key Vault References), Azure App Configuration (labels, feature flags, sentinel refresh), distributed tracing with OpenTelemetry SDKs, and log analysis with KQL queries in Application Insights.
+          </div>
+          <div class="card-tags">
+            <span class="tag">Key Vault</span>
+            <span class="tag">App Configuration</span>
+            <span class="tag">OpenTelemetry</span>
+            <span class="tag">KQL</span>
+            <span class="tag">Feature Flags</span>
+            <span class="tag">Rotation</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="card-stats">
+            <span class="card-stat"><span class="card-stat-icon">&#9989;</span> 30 MCQ</span>
+            <span class="card-stat"><span class="card-stat-icon">&#127183;</span> 20 Flashcards</span>
+            <span class="card-stat"><span class="card-stat-icon">&#128340;</span> 8–10 hrs</span>
+          </div>
+          <span class="card-open">Open
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 8h10M9 4l4 4-4 4"/>
+            </svg>
+          </span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  AI-200: Microsoft Azure AI Engineer Associate &nbsp;·&nbsp; All manuals are self-contained HTML files &nbsp;·&nbsp; Open locally in any browser
+</footer>
+
+</body>
+</html>

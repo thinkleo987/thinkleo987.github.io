@@ -1,0 +1,1765 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI-200 | Secure, Monitor &amp; Troubleshoot Azure Solutions</title>
+<style>
+:root{--azure-blue:#0078d4;--azure-dark:#003966;--azure-light:#e6f3fb;--sidebar-width:280px;--topbar-height:56px;--border:#d0d7de;--bg:#f6f8fa;--text:#24292f;--code-bg:#161b22;--code-text:#e6edf3;--success:#1a7f37;--success-bg:#dafbe1;--warning:#9a6700;--warning-bg:#fff8c5;--danger:#cf222e;--danger-bg:#ffebe9;--info:#0550ae;--info-bg:#ddf4ff;--radius:8px;--shadow:0 1px 3px rgba(0,0,0,.12),0 1px 2px rgba(0,0,0,.08);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;}
+.sidebar{position:fixed;top:0;left:0;width:var(--sidebar-width);height:100vh;background:var(--azure-dark);overflow-y:auto;z-index:100;}
+.sidebar-header{padding:20px 16px;border-bottom:1px solid rgba(255,255,255,.1);}
+.sidebar-header h2{color:#fff;font-size:13px;font-weight:700;line-height:1.3;}
+.sidebar-header span{color:rgba(255,255,255,.55);font-size:11px;}
+.sidebar nav{padding:6px 0;}
+.sidebar nav a{display:block;padding:7px 16px;color:rgba(255,255,255,.78);text-decoration:none;font-size:12.5px;transition:all .15s;border-left:3px solid transparent;}
+.sidebar nav a:hover{background:rgba(255,255,255,.07);color:#fff;}
+.sidebar nav a.active{background:rgba(0,120,212,.3);color:#fff;border-left-color:var(--azure-blue);}
+.sidebar nav .nav-section{padding:10px 16px 3px;color:rgba(255,255,255,.38);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;}
+.sidebar::-webkit-scrollbar{width:4px;}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:2px;}
+.topbar{position:fixed;top:0;left:var(--sidebar-width);right:0;height:var(--topbar-height);background:#fff;border-bottom:1px solid var(--border);z-index:99;display:flex;align-items:center;padding:0 24px;gap:16px;box-shadow:var(--shadow);}
+.topbar h1{font-size:15px;font-weight:600;color:var(--azure-dark);flex:1;}
+.progress-bar-wrap{width:180px;height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden;}
+.progress-bar{height:100%;background:linear-gradient(90deg,var(--azure-blue),#50e6ff);border-radius:3px;transition:width .3s;width:0%;}
+.progress-label{font-size:11.5px;color:#888;white-space:nowrap;}
+.content{margin-left:var(--sidebar-width);padding-top:var(--topbar-height);min-height:100vh;}
+.hero{background:linear-gradient(135deg,#1a0533 0%,#2d1b69 50%,#0078d4 100%);color:#fff;padding:56px 48px;}
+.hero-badge{display:inline-block;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 14px;font-size:11.5px;font-weight:600;margin-bottom:14px;}
+.hero h1{font-size:34px;font-weight:800;line-height:1.2;margin-bottom:10px;}
+.hero p{font-size:15px;opacity:.85;max-width:680px;margin-bottom:20px;}
+.hero-meta{display:flex;gap:24px;flex-wrap:wrap;}
+.hero-meta span{font-size:12.5px;opacity:.72;}
+.section{padding:44px 48px;border-bottom:1px solid var(--border);background:#fff;}
+.section:nth-child(even){background:#fafbfc;}
+.section-badge{display:inline-block;background:var(--azure-light);color:var(--azure-blue);border-radius:4px;padding:2px 8px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;}
+.section h2{font-size:25px;font-weight:700;color:var(--azure-dark);margin-bottom:8px;}
+.section h3{font-size:17px;font-weight:600;color:var(--azure-dark);margin:22px 0 10px;}
+.section h4{font-size:14.5px;font-weight:600;color:var(--text);margin:14px 0 7px;}
+.section>p,.section>ul,.section>ol{max-width:820px;margin-bottom:10px;}
+.section ul,.section ol{padding-left:22px;}
+.section ul li,.section ol li{margin-bottom:5px;}
+.callout{border-radius:var(--radius);padding:14px 18px;margin:18px 0;border:1px solid;display:flex;gap:12px;align-items:flex-start;max-width:820px;}
+.callout-icon{font-size:18px;flex-shrink:0;margin-top:1px;}
+.callout-body{flex:1;}
+.callout-body strong{display:block;margin-bottom:3px;font-size:13.5px;}
+.callout-body p,.callout-body ul{font-size:13px;margin-bottom:3px;}
+.callout-body ul{padding-left:16px;}
+.callout.must-know{background:var(--success-bg);border-color:#34d058;color:#0a4624;}
+.callout.warning{background:var(--warning-bg);border-color:#d9a800;color:#533d00;}
+.callout.tip{background:var(--info-bg);border-color:#4493f8;color:#031d4f;}
+.callout.info{background:#f0f0f0;border-color:#bbb;color:#333;}
+.callout.danger{background:var(--danger-bg);border-color:#f85149;color:#5c0000;}
+.code-block{position:relative;background:var(--code-bg);border-radius:var(--radius);margin:14px 0;overflow:hidden;max-width:920px;}
+.code-label{background:rgba(255,255,255,.06);padding:5px 14px;font-size:10.5px;font-weight:600;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;}
+.code-block pre{padding:18px;overflow-x:auto;line-height:1.55;}
+.code-block code{font-family:'Cascadia Code','Fira Code',Consolas,monospace;font-size:12.5px;color:var(--code-text);}
+.kw{color:#ff7b72;}.st{color:#a5d6ff;}.cm{color:#8b949e;}.fn{color:#d2a8ff;}.nm{color:#79c0ff;}.op{color:#ffa657;}.num{color:#79c0ff;}.dec{color:#ffa657;}
+.table-wrap{overflow-x:auto;margin:14px 0;max-width:100%;}
+table{border-collapse:collapse;width:100%;font-size:13px;}
+th{background:var(--azure-dark);color:#fff;padding:9px 13px;text-align:left;font-weight:600;font-size:13px;}
+td{padding:8px 13px;border-bottom:1px solid var(--border);vertical-align:top;}
+tr:nth-child(even) td{background:#f6f8fa;}
+tr:hover td{background:var(--azure-light);}
+.badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:11px;font-weight:700;}
+.badge-blue{background:var(--azure-light);color:var(--azure-blue);}
+.badge-green{background:var(--success-bg);color:var(--success);}
+.badge-orange{background:var(--warning-bg);color:var(--warning);}
+.badge-red{background:var(--danger-bg);color:var(--danger);}
+.mod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin:20px 0;}
+.mod-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);transition:transform .15s,box-shadow .15s;}
+.mod-card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1);}
+.mod-card-icon{font-size:26px;margin-bottom:8px;}
+.mod-card h3{font-size:13.5px;font-weight:700;color:var(--azure-dark);margin-bottom:5px;}
+.mod-card p{font-size:11.5px;color:#666;}
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin:20px 0;}
+.flashcard{height:190px;cursor:pointer;perspective:1000px;}
+.fc-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,0,.2,1);}
+.flashcard.flipped .fc-inner{transform:rotateY(180deg);}
+.fc-front,.fc-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:var(--radius);padding:18px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;}
+.fc-front{background:linear-gradient(135deg,#1a0533,#0078d4);color:#fff;box-shadow:var(--shadow);}
+.fc-back{background:#fff;border:2px solid var(--azure-blue);transform:rotateY(180deg);color:var(--text);box-shadow:var(--shadow);}
+.fc-front p{font-size:13.5px;font-weight:600;line-height:1.4;}
+.fc-back p{font-size:12.5px;line-height:1.5;}
+.fc-tag{position:absolute;top:8px;right:8px;background:rgba(255,255,255,.18);border-radius:4px;padding:2px 7px;font-size:10px;font-weight:700;text-transform:uppercase;color:rgba(255,255,255,.75);}
+.fc-back .fc-tag{background:var(--azure-light);color:var(--azure-blue);}
+.mcq-question{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:14px;box-shadow:var(--shadow);}
+.mcq-question p{font-weight:600;margin-bottom:12px;font-size:14px;}
+.mcq-options label{display:flex;align-items:flex-start;gap:9px;padding:7px 10px;border-radius:6px;cursor:pointer;font-size:13px;transition:background .15s;margin-bottom:3px;}
+.mcq-options label:hover{background:var(--azure-light);}
+.mcq-options input[type=radio]{margin-top:2px;accent-color:var(--azure-blue);}
+.mcq-explanation{display:none;margin-top:10px;padding:10px 14px;border-radius:6px;font-size:13px;}
+.mcq-explanation.correct{background:var(--success-bg);border-left:4px solid var(--success);}
+.mcq-explanation.incorrect{background:var(--danger-bg);border-left:4px solid var(--danger);}
+.mcq-submit{background:var(--azure-blue);color:#fff;border:none;padding:7px 18px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;margin-top:8px;transition:background .15s;}
+.mcq-submit:hover{background:var(--azure-dark);}
+.mcq-score-bar{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:18px 22px;margin-bottom:18px;display:flex;align-items:center;gap:18px;box-shadow:var(--shadow);}
+.score-display{font-size:30px;font-weight:800;color:var(--azure-blue);}
+.score-label{font-size:13.5px;color:#666;}
+.cheat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;margin:20px 0;}
+.cheat-card{background:var(--azure-dark);color:#fff;border-radius:var(--radius);padding:18px;}
+.cheat-card h4{font-size:12px;font-weight:700;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;border-bottom:1px solid rgba(255,255,255,.1);padding-bottom:7px;}
+.cheat-card pre{font-size:11.5px;color:#e6edf3;font-family:'Cascadia Code',Consolas,monospace;line-height:1.5;white-space:pre-wrap;word-break:break-word;}
+.glossary-filter{padding:9px 13px;border:1px solid var(--border);border-radius:6px;font-size:13.5px;width:100%;max-width:400px;margin-bottom:14px;outline:none;}
+.glossary-filter:focus{border-color:var(--azure-blue);box-shadow:0 0 0 3px rgba(0,120,212,.15);}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:14px 0;}
+@media(max-width:900px){.two-col{grid-template-columns:1fr;}}
+.graphic-placeholder{background:linear-gradient(135deg,#f0f4f8,#e1e9f0);border:2px dashed #a0b4c4;border-radius:var(--radius);padding:36px;text-align:center;margin:18px 0;max-width:820px;}
+.graphic-placeholder strong{display:block;color:var(--azure-dark);font-size:14px;margin-bottom:6px;}
+.graphic-placeholder p{color:#666;font-size:12.5px;}
+.tips-list{counter-reset:tip-counter;list-style:none;padding:0;max-width:820px;}
+.tips-list li{counter-increment:tip-counter;display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);font-size:13.5px;}
+.tips-list li::before{content:counter(tip-counter);display:flex;align-items:center;justify-content:center;min-width:26px;height:26px;background:var(--azure-blue);color:#fff;border-radius:50%;font-size:11.5px;font-weight:700;flex-shrink:0;}
+</style>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <h2>AI-200 Certification</h2>
+    <span>Secure, Monitor &amp; Troubleshoot</span>
+  </div>
+  <nav>
+    <div class="nav-section">Overview</div>
+    <a href="#overview">Module Overview</a>
+    <div class="nav-section">Azure Key Vault</div>
+    <a href="#kv-intro">Architecture &amp; Tiers</a>
+    <a href="#kv-rbac">Access Control: RBAC vs Policies</a>
+    <a href="#kv-python">Python SDK — CRUD Operations</a>
+    <a href="#kv-dotnet">C# SDK &amp; Operations</a>
+    <a href="#kv-versions">Soft Delete &amp; Versioning</a>
+    <a href="#kv-rotation">Secret Rotation</a>
+    <a href="#kv-refs">Key Vault References</a>
+    <div class="nav-section">Azure App Configuration</div>
+    <a href="#ac-overview">Architecture &amp; Concepts</a>
+    <a href="#ac-crud">SDK Connection &amp; CRUD</a>
+    <a href="#ac-labels">Labels &amp; Environments</a>
+    <a href="#ac-flags">Feature Flags</a>
+    <a href="#ac-refresh">Dynamic Refresh</a>
+    <div class="nav-section">OpenTelemetry</div>
+    <a href="#otel-overview">Concepts: Traces, Spans, Metrics</a>
+    <a href="#otel-python">Python Setup &amp; Instrumentation</a>
+    <a href="#otel-dotnet">.NET Setup &amp; Instrumentation</a>
+    <div class="nav-section">KQL</div>
+    <a href="#kql-basics">Fundamentals &amp; Syntax</a>
+    <a href="#kql-operators">Key Operators</a>
+    <a href="#kql-queries">App Insights Queries</a>
+    <a href="#kql-agg">Aggregation &amp; Time</a>
+    <div class="nav-section">Review</div>
+    <a href="#flashcards">Flashcards</a>
+    <a href="#mcq">Practice MCQ</a>
+    <a href="#cheatsheet">Cheat Sheet</a>
+    <a href="#glossary">Glossary</a>
+    <a href="#tips">Last-Minute Tips</a>
+  </nav>
+</aside>
+
+<div class="topbar">
+  <h1>Secure, Monitor &amp; Troubleshoot Azure Solutions (20–25%)</h1>
+  <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
+  <span class="progress-label" id="progressLabel">0%</span>
+</div>
+
+<main class="content">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">AI-200 Exam Prep | Module 4</div>
+  <h1>Secure, Monitor &amp; Troubleshoot Azure Solutions</h1>
+  <p>Master secrets management with Azure Key Vault, dynamic configuration with Azure App Configuration, distributed tracing with OpenTelemetry, and log analysis with KQL. This module covers 20–25% of the AI-200 exam.</p>
+  <div class="hero-meta">
+    <span>&#128340; 8–10 hours</span>
+    <span>&#127919; Exam weight: 20–25%</span>
+    <span>&#128218; 4 core services</span>
+    <span>&#9989; 30 practice questions</span>
+  </div>
+</div>
+
+<!-- OVERVIEW -->
+<section class="section" id="overview">
+  <div class="section-badge">Module Overview</div>
+  <h2>What You'll Master</h2>
+  <p>Securing AI applications requires proper secrets management, externalized configuration, and robust observability. This module gives you the tools to build secure, observable AI solutions on Azure.</p>
+
+  <div class="mod-grid">
+    <div class="mod-card">
+      <div class="mod-card-icon">&#128272;</div>
+      <h3>Azure Key Vault</h3>
+      <p>Store secrets, keys, and certificates. RBAC, soft delete, rotation, and KV References in App Service.</p>
+    </div>
+    <div class="mod-card">
+      <div class="mod-card-icon">&#9881;</div>
+      <h3>App Configuration</h3>
+      <p>Centralized config management with labels, feature flags, KV references, and dynamic refresh.</p>
+    </div>
+    <div class="mod-card">
+      <div class="mod-card-icon">&#128269;</div>
+      <h3>OpenTelemetry</h3>
+      <p>Distributed tracing with spans, attributes, Azure Monitor exporter, and W3C TraceContext propagation.</p>
+    </div>
+    <div class="mod-card">
+      <div class="mod-card-icon">&#128202;</div>
+      <h3>KQL Queries</h3>
+      <p>Analyze Application Insights and Log Analytics data with powerful Kusto query expressions.</p>
+    </div>
+  </div>
+
+  <div class="callout must-know">
+    <span class="callout-icon">&#128218;</span>
+    <div class="callout-body">
+      <strong>Security-First Development — Core Exam Principle</strong>
+      <ul>
+        <li>Never hardcode credentials — always use Managed Identity + Key Vault or App Configuration</li>
+        <li>Key Vault RBAC roles: <strong>Key Vault Secrets Officer</strong> (CRUD) vs <strong>Key Vault Secrets User</strong> (read-only) — know the difference</li>
+        <li>Key Vault References let App Service/Functions pull secrets at runtime without SDK code</li>
+        <li>OpenTelemetry is the preferred observability SDK (replaces legacy Application Insights SDK)</li>
+        <li>KQL <code>summarize</code> + <code>bin()</code> pattern for time-bucketed metrics is a common exam question</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Key Exam Topics at a Glance</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Topic</th><th>Key Concepts</th><th>Exam Weight</th></tr>
+      <tr><td>Key Vault</td><td>RBAC roles, soft delete, rotation trigger (Event Grid nearExpiry), KV References syntax</td><td>High</td></tr>
+      <tr><td>App Configuration</td><td>Labels, feature flags, sentinel key refresh, KV references</td><td>Medium</td></tr>
+      <tr><td>OpenTelemetry</td><td>Trace→Span hierarchy, attributes, Azure Monitor exporter, W3C traceparent</td><td>Medium</td></tr>
+      <tr><td>KQL</td><td>where, summarize, bin(), percentile(), join kinds, render</td><td>High</td></tr>
+    </table>
+  </div>
+</section>
+<!-- KEY VAULT INTRO -->
+<section class="section" id="kv-intro">
+  <div class="section-badge">Azure Key Vault</div>
+  <h2>Architecture &amp; Object Types</h2>
+  <p>Azure Key Vault is a cloud HSM service for securely storing and controlling access to tokens, passwords, certificates, API keys, and other secrets. For AI applications it protects API keys for Azure OpenAI, database connection strings, and storage account keys.</p>
+
+  <div class="graphic-placeholder">
+    <strong>GRAPHIC REQUIRED — Key Vault Architecture</strong>
+    <p>Diagram: Application with Managed Identity → RBAC check on Key Vault → Secrets/Keys/Certificates store. Shows soft-delete retention, versioning, and audit logs flowing to Azure Monitor.</p>
+  </div>
+
+  <h3>Object Types</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Type</th><th>Description</th><th>Use Case</th></tr>
+      <tr><td><strong>Secrets</strong></td><td>Arbitrary text values (passwords, connection strings, API keys)</td><td>Storing Azure OpenAI API keys, database passwords</td></tr>
+      <tr><td><strong>Keys</strong></td><td>Cryptographic keys (RSA, EC). Standard or HSM-backed</td><td>Data encryption, signing JWTs</td></tr>
+      <tr><td><strong>Certificates</strong></td><td>X.509 certificates with integrated lifecycle management</td><td>TLS certs, client authentication</td></tr>
+    </table>
+  </div>
+
+  <h3>SKU Tiers</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Tier</th><th>Key Protection</th><th>Use Case</th></tr>
+      <tr><td><strong>Standard</strong></td><td>Software-protected keys</td><td>Most workloads, secrets and certs</td></tr>
+      <tr><td><strong>Premium</strong></td><td>HSM-backed keys (FIPS 140-2 Level 2/3)</td><td>Financial/regulated workloads requiring HSM</td></tr>
+    </table>
+  </div>
+
+  <div class="callout must-know">
+    <span class="callout-icon">&#128218;</span>
+    <div class="callout-body">
+      <strong>Key Vault URI Format</strong>
+      <p>Vault URI: <code>https://{vault-name}.vault.azure.net/</code><br>
+      Secret URI: <code>https://{vault-name}.vault.azure.net/secrets/{name}/{version}</code><br>
+      Omit <code>/{version}</code> to always get the latest enabled version.</p>
+    </div>
+  </div>
+</section>
+
+<!-- KEY VAULT RBAC -->
+<section class="section" id="kv-rbac">
+  <div class="section-badge">Azure Key Vault</div>
+  <h2>Access Control: RBAC vs Access Policies</h2>
+  <p>Key Vault supports two authorization models. <strong>Azure RBAC</strong> (recommended) uses Azure role assignments scoped to the vault. <strong>Access Policies</strong> (legacy) are vault-specific permissions per principal.</p>
+
+  <h3>Azure RBAC Roles (Exam Critical)</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Role</th><th>Permissions</th><th>Use Case</th></tr>
+      <tr><td><strong>Key Vault Administrator</strong></td><td>Full control — manage access policies, create/delete vault objects</td><td>Admin only</td></tr>
+      <tr><td><strong>Key Vault Secrets Officer</strong></td><td>Create, read, update, delete, list, recover, backup secrets</td><td>Application that manages secrets lifecycle</td></tr>
+      <tr><td><strong>Key Vault Secrets User</strong></td><td>Read (get) secret values only</td><td>Application that only reads secrets at runtime</td></tr>
+      <tr><td><strong>Key Vault Reader</strong></td><td>Read metadata (names, properties) but NOT values</td><td>Audit/monitoring tools</td></tr>
+      <tr><td><strong>Key Vault Crypto Officer</strong></td><td>CRUD on keys, encrypt/decrypt/sign/verify</td><td>Key management apps</td></tr>
+      <tr><td><strong>Key Vault Crypto User</strong></td><td>Encrypt/decrypt/sign/verify with existing keys</td><td>Apps that use keys for crypto ops</td></tr>
+    </table>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-icon">&#9888;</span>
+    <div class="callout-body">
+      <strong>RBAC vs Access Policies — Exam Trap</strong>
+      <ul>
+        <li><strong>RBAC</strong>: Permissions are Azure role assignments — scope can be subscription, resource group, or vault. Managed via IAM blade. RECOMMENDED for new workloads.</li>
+        <li><strong>Access Policies</strong>: Vault-level only, set per-principal with granular operation permissions. Still works but cannot be scoped more broadly.</li>
+        <li>You cannot mix both models on the same vault for the same principal — the vault uses one permission model (configurable in vault settings).</li>
+        <li>For App Service/Functions using Key Vault References, the system-assigned managed identity needs <strong>Key Vault Secrets User</strong> role (RBAC) or <strong>Get</strong> secret permission (Access Policy).</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Assigning RBAC via Azure CLI</h3>
+  <div class="code-block">
+    <div class="code-label">Azure CLI — assign Key Vault Secrets User role</div>
+    <pre><code><cm># Get the managed identity's principal ID</cm>
+<nm>principalId</nm>=$(az webapp identity show \
+  --resource-group myRG --name myApp \
+  --query principalId --output tsv)
+
+<cm># Assign Key Vault Secrets User role</cm>
+az role assignment create \
+  --role <st>"Key Vault Secrets User"</st> \
+  --assignee <nm>$principalId</nm> \
+  --scope <st>"/subscriptions/{subId}/resourceGroups/myRG/providers/Microsoft.KeyVault/vaults/myVault"</st></code></pre>
+  </div>
+</section>
+
+<!-- KEY VAULT PYTHON SDK -->
+<section class="section" id="kv-python">
+  <div class="section-badge">Azure Key Vault</div>
+  <h2>Python SDK — CRUD Operations</h2>
+  <p>Use the <code>azure-keyvault-secrets</code> package with <code>azure-identity</code> for Managed Identity authentication. The <code>SecretClient</code> is the primary interface for secret operations.</p>
+
+  <h3>Install Packages</h3>
+  <div class="code-block">
+    <div class="code-label">pip install</div>
+    <pre><code>pip install azure-keyvault-secrets azure-identity</code></pre>
+  </div>
+
+  <h3>Full CRUD Operations</h3>
+  <div class="code-block">
+    <div class="code-label">Python — SecretClient CRUD with DefaultAzureCredential</div>
+    <pre><code><kw>from</kw> <nm>azure.identity</nm> <kw>import</kw> <fn>DefaultAzureCredential</fn>
+<kw>from</kw> <nm>azure.keyvault.secrets</nm> <kw>import</kw> <fn>SecretClient</fn>
+<kw>from</kw> <nm>datetime</nm> <kw>import</kw> <nm>datetime</nm>, <nm>timezone</nm>, <nm>timedelta</nm>
+
+<nm>vault_url</nm> = <st>"https://my-vault.vault.azure.net/"</st>
+<nm>credential</nm> = <fn>DefaultAzureCredential</fn>()
+<nm>client</nm> = <fn>SecretClient</fn>(<nm>vault_url</nm>=<nm>vault_url</nm>, <nm>credential</nm>=<nm>credential</nm>)
+
+<cm># --- CREATE / SET ---</cm>
+<nm>secret</nm> = <nm>client</nm>.<fn>set_secret</fn>(
+    <st>"openai-api-key"</st>,
+    <st>"sk-prod-abc123xyz"</st>,
+    <nm>content_type</nm>=<st>"text/plain"</st>,
+    <nm>expires_on</nm>=<nm>datetime</nm>(<num>2027</num>, <num>1</num>, <num>1</num>, <nm>tzinfo</nm>=<nm>timezone</nm>.<nm>utc</nm>)
+)
+<nm>print</nm>(<st>f"Created: {secret.name} version={secret.properties.version}"</st>)
+
+<cm># --- READ (latest version) ---</cm>
+<nm>secret</nm> = <nm>client</nm>.<fn>get_secret</fn>(<st>"openai-api-key"</st>)
+<nm>print</nm>(<st>f"Value: {secret.value}"</st>)
+<nm>print</nm>(<st>f"Version: {secret.properties.version}"</st>)
+
+<cm># --- READ (specific version) ---</cm>
+<nm>specific</nm> = <nm>client</nm>.<fn>get_secret</fn>(<st>"openai-api-key"</st>, <nm>version</nm>=<st>"abc123versionid"</st>)
+
+<cm># --- LIST all secret names (not values) ---</cm>
+<kw>for</kw> <nm>prop</nm> <kw>in</kw> <nm>client</nm>.<fn>list_properties_of_secrets</fn>():
+    <nm>print</nm>(<st>f"{prop.name} — enabled={prop.enabled}, expires={prop.expires_on}"</st>)
+
+<cm># --- LIST all versions of a secret ---</cm>
+<kw>for</kw> <nm>prop</nm> <kw>in</kw> <nm>client</nm>.<fn>list_properties_of_secret_versions</fn>(<st>"openai-api-key"</st>):
+    <nm>print</nm>(<st>f"version={prop.version}, created={prop.created_on}"</st>)
+
+<cm># --- UPDATE secret properties (not value — set_secret creates new version) ---</cm>
+<nm>client</nm>.<fn>update_secret_properties</fn>(<st>"openai-api-key"</st>, <nm>enabled</nm>=<nm>False</nm>)
+
+<cm># --- DELETE (soft delete — secret is in "deleted" state, NOT gone) ---</cm>
+<nm>poller</nm> = <nm>client</nm>.<fn>begin_delete_secret</fn>(<st>"openai-api-key"</st>)
+<nm>deleted</nm> = <nm>poller</nm>.<fn>result</fn>()
+<nm>print</nm>(<st>f"Deleted. Purge allowed after: {deleted.scheduled_purge_date}"</st>)
+
+<cm># --- RECOVER deleted secret ---</cm>
+<nm>recover_poller</nm> = <nm>client</nm>.<fn>begin_recover_deleted_secret</fn>(<st>"openai-api-key"</st>)
+<nm>recovered</nm> = <nm>recover_poller</nm>.<fn>result</fn>()
+
+<cm># --- PURGE (permanent delete — only after soft-delete, requires purge permission) ---</cm>
+<nm>client</nm>.<fn>purge_deleted_secret</fn>(<st>"openai-api-key"</st>)
+
+<cm># --- BACKUP and RESTORE ---</cm>
+<nm>backup</nm> = <nm>client</nm>.<fn>backup_secret</fn>(<st>"openai-api-key"</st>)
+<nm>client</nm>.<fn>restore_secret_backup</fn>(<nm>backup</nm>)</code></pre>
+  </div>
+
+  <div class="callout warning">
+    <span class="callout-icon">&#9888;</span>
+    <div class="callout-body">
+      <strong>set_secret Always Creates a New Version</strong>
+      <p>Calling <code>set_secret("name", "new-value")</code> creates a new version — it does NOT overwrite the existing value. The new version becomes the latest active version. Old versions remain accessible by their specific version ID. To update only metadata (enabled/disabled, expiry), use <code>update_secret_properties()</code>.</p>
+    </div>
+  </div>
+</section>
+<!-- KEY VAULT C# SDK -->
+<section class="section" id="kv-dotnet">
+  <div class="section-badge">Azure Key Vault</div>
+  <h2>C# SDK &amp; Operations</h2>
+
+  <div class="code-block">
+    <div class="code-label">C# — SecretClient with DefaultAzureCredential (full CRUD)</div>
+    <pre><code><kw>using</kw> <nm>Azure.Identity</nm>;
+<kw>using</kw> <nm>Azure.KeyVault.Secrets</nm>; <cm>// Azure.Security.KeyVault.Secrets NuGet</cm>
+
+<kw>var</kw> <nm>vaultUri</nm> = <kw>new</kw> <fn>Uri</fn>(<st>"https://my-vault.vault.azure.net/"</st>);
+<kw>var</kw> <nm>credential</nm> = <kw>new</kw> <fn>DefaultAzureCredential</fn>();
+<kw>var</kw> <nm>client</nm> = <kw>new</kw> <fn>SecretClient</fn>(<nm>vaultUri</nm>, <nm>credential</nm>);
+
+<cm>// SET secret</cm>
+<nm>KeyVaultSecret</nm> <nm>secret</nm> = <kw>await</kw> <nm>client</nm>.<fn>SetSecretAsync</fn>(<st>"openai-api-key"</st>, <st>"sk-abc123"</st>);
+<fn>Console</fn>.<fn>WriteLine</fn>(<st>$"Version: {secret.Properties.Version}"</st>);
+
+<cm>// GET latest version</cm>
+<nm>KeyVaultSecret</nm> <nm>retrieved</nm> = <kw>await</kw> <nm>client</nm>.<fn>GetSecretAsync</fn>(<st>"openai-api-key"</st>);
+<fn>Console</fn>.<fn>WriteLine</fn>(<nm>retrieved</nm>.<nm>Value</nm>);
+
+<cm>// GET specific version</cm>
+<nm>KeyVaultSecret</nm> <nm>specific</nm> = <kw>await</kw> <nm>client</nm>.<fn>GetSecretAsync</fn>(<st>"openai-api-key"</st>, <st>"version-id"</st>);
+
+<cm>// LIST secrets (names only, not values)</cm>
+<kw>await foreach</kw> (<nm>SecretProperties</nm> <nm>prop</nm> <kw>in</kw> <nm>client</nm>.<fn>GetPropertiesOfSecretsAsync</fn>())
+{
+    <fn>Console</fn>.<fn>WriteLine</fn>(<st>$"{prop.Name} expires={prop.ExpiresOn}"</st>);
+}
+
+<cm>// UPDATE properties only</cm>
+<nm>KeyVaultSecret</nm> <nm>toUpdate</nm> = <kw>await</kw> <nm>client</nm>.<fn>GetSecretAsync</fn>(<st>"openai-api-key"</st>);
+<nm>toUpdate</nm>.<nm>Properties</nm>.<nm>Enabled</nm> = <kw>false</kw>;
+<kw>await</kw> <nm>client</nm>.<fn>UpdateSecretPropertiesAsync</fn>(<nm>toUpdate</nm>.<nm>Properties</nm>);
+
+<cm>// DELETE (soft delete)</cm>
+<nm>DeleteSecretOperation</nm> <nm>op</nm> = <kw>await</kw> <nm>client</nm>.<fn>StartDeleteSecretAsync</fn>(<st>"openai-api-key"</st>);
+<kw>await</kw> <nm>op</nm>.<fn>WaitForCompletionAsync</fn>();
+
+<cm>// PURGE after soft delete</cm>
+<kw>await</kw> <nm>client</nm>.<fn>PurgeDeletedSecretAsync</fn>(<st>"openai-api-key"</st>);
+
+<cm>// RECOVER deleted secret</cm>
+<nm>RecoverDeletedSecretOperation</nm> <nm>rec</nm> = <kw>await</kw> <nm>client</nm>.<fn>StartRecoverDeletedSecretAsync</fn>(<st>"openai-api-key"</st>);
+<kw>await</kw> <nm>rec</nm>.<fn>WaitForCompletionAsync</fn>();</code></pre>
+  </div>
+
+  <h3>Using in ASP.NET Core with DI</h3>
+  <div class="code-block">
+    <div class="code-label">C# — register SecretClient in dependency injection</div>
+    <pre><code><cm>// Program.cs</cm>
+<nm>builder</nm>.<nm>Services</nm>.<fn>AddSingleton</fn>(_ => <kw>new</kw> <fn>SecretClient</fn>(
+    <kw>new</kw> <fn>Uri</fn>(<nm>builder</nm>.<nm>Configuration</nm>[<st>"KeyVault:VaultUri"</st>]),
+    <kw>new</kw> <fn>DefaultAzureCredential</fn>()
+));
+
+<cm>// Inject in controller/service</cm>
+<kw>public class</kw> <fn>AiService</fn>(<nm>SecretClient</nm> <nm>secretClient</nm>)
+{
+    <kw>public async</kw> <nm>Task</nm>&lt;<nm>string</nm>&gt; <fn>GetApiKeyAsync</fn>()
+    {
+        <nm>KeyVaultSecret</nm> <nm>s</nm> = <kw>await</kw> <nm>secretClient</nm>.<fn>GetSecretAsync</fn>(<st>"openai-api-key"</st>);
+        <kw>return</kw> <nm>s</nm>.<nm>Value</nm>;
+    }
+}</code></pre>
+  </div>
+</section>
+
+<!-- KEY VAULT VERSIONING -->
+<section class="section" id="kv-versions">
+  <div class="section-badge">Azure Key Vault</div>
+  <h2>Soft Delete, Versioning &amp; Purge Protection</h2>
+
+  <h3>Secret Versioning</h3>
+  <p>Every <code>set_secret()</code> / <code>SetSecretAsync()</code> call creates a new version. The vault stores the full version history. When you get a secret without specifying a version, you always get the <strong>latest enabled version</strong>.</p>
+
+  <div class="graphic-placeholder">
+    <strong>GRAPHIC REQUIRED — Secret Versioning Timeline</strong>
+    <p>Timeline showing: version v1 (created Jan 1, disabled), version v2 (created Feb 1, active), version v3 (created after rotation, active). Arrow showing "get_secret() without version → returns v3 (latest active)".</p>
+  </div>
+
+  <h3>Soft Delete Behavior</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>State</th><th>Description</th><th>Reversible?</th></tr>
+      <tr><td><strong>Active</strong></td><td>Normal state, accessible via get_secret()</td><td>N/A</td></tr>
+      <tr><td><strong>Deleted (Soft)</strong></td><td>Marked for deletion; in "deleted vault" for 7–90 days. NOT accessible via get_secret()</td><td>Yes — recover within retention period</td></tr>
+      <tr><td><strong>Purged</strong></td><td>Permanently deleted, cannot be recovered</td><td>No</td></tr>
+    </table>
+  </div>
+
+  <div class="callout must-know">
+    <span class="callout-icon">&#128218;</span>
+    <div class="callout-body">
+      <strong>Soft Delete is Enabled by Default (Azure Portal &amp; New Vaults)</strong>
+      <ul>
+        <li>Soft delete retention: configurable 7–90 days (default 90 days)</li>
+        <li>During soft-delete retention, the name cannot be reused (secret is in "deleted secrets" list)</li>
+        <li><strong>Purge Protection:</strong> When enabled, even admins cannot purge during retention. Required for regulatory compliance. Enabling purge protection is <strong>irreversible</strong>.</li>
+        <li>To reuse a secret name after deletion, you must either wait for retention or explicitly purge it (if purge protection is OFF)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- KEY VAULT ROTATION -->
+<section class="section" id="kv-rotation">
+  <div class="section-badge">Azure Key Vault</div>
+  <h2>Secret Rotation</h2>
+  <p>Secret rotation is critical for security hygiene. Azure Key Vault integrates with Event Grid to automate rotation workflows. There are two Key Vault secret lifecycle events:</p>
+
+  <h3>Key Vault Event Grid Events</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Event Type</th><th>Trigger</th><th>Action</th></tr>
+      <tr><td><code>Microsoft.KeyVault.SecretNearExpiry</code></td><td>30 days before secret expiry</td><td>Trigger rotation function to set new secret version</td></tr>
+      <tr><td><code>Microsoft.KeyVault.SecretExpired</code></td><td>Secret expiry date reached</td><td>Emergency rotation or alert</td></tr>
+      <tr><td><code>Microsoft.KeyVault.SecretNewVersionCreated</code></td><td>New version set</td><td>Notify downstream services to reload config</td></tr>
+    </table>
+  </div>
+
+  <h3>Event-Based Rotation Architecture</h3>
+  <div class="graphic-placeholder">
+    <strong>GRAPHIC REQUIRED — Secret Rotation Flow</strong>
+    <p>Diagram: Key Vault emits SecretNearExpiry → Event Grid → Azure Function (rotation function) → calls service API to generate new credential → set_secret() creates new version → SecretNewVersionCreated event → App Configuration or app reload.</p>
+  </div>
+
+  <h3>Python — Rotation Function (Event Grid Trigger)</h3>
+  <div class="code-block">
+    <div class="code-label">Python — Azure Function for secret rotation (triggered by Event Grid)</div>
+    <pre><code><kw>import</kw> <nm>azure.functions</nm> <kw>as</kw> <nm>func</nm>
+<kw>import</kw> <nm>json</nm>, <nm>secrets</nm>
+<kw>from</kw> <nm>azure.identity</nm> <kw>import</kw> <fn>DefaultAzureCredential</fn>
+<kw>from</kw> <nm>azure.keyvault.secrets</nm> <kw>import</kw> <fn>SecretClient</fn>
+
+<nm>app</nm> = <nm>func</nm>.<fn>FunctionApp</fn>()
+<nm>kv_client</nm> = <fn>SecretClient</fn>(<st>"https://my-vault.vault.azure.net/"</st>, <fn>DefaultAzureCredential</fn>())
+
+<op>@app.event_grid_trigger</op>(<nm>arg_name</nm>=<st>"event"</st>)
+<kw>def</kw> <fn>rotate_secret</fn>(<nm>event</nm>: <nm>func</nm>.<nm>EventGridEvent</nm>) -> <nm>None</nm>:
+    <nm>data</nm> = <nm>event</nm>.<nm>get_json</nm>()
+    <nm>secret_name</nm> = <nm>data</nm>[<st>"ObjectName"</st>]
+
+    <cm># Generate new secret value (example: new API key)</cm>
+    <nm>new_value</nm> = <nm>secrets</nm>.<fn>token_urlsafe</fn>(<num>32</num>)
+
+    <cm># In real scenario: call the external service to create new credentials</cm>
+    <cm># e.g., regenerate storage account key, rotate DB password</cm>
+
+    <cm># Set new version in Key Vault</cm>
+    <nm>kv_client</nm>.<fn>set_secret</fn>(<nm>secret_name</nm>, <nm>new_value</nm>)
+    <nm>print</nm>(<st>f"Rotated secret: {secret_name}"</st>)</code></pre>
+  </div>
+
+  <h3>Automated Rotation Policy (Built-in)</h3>
+  <div class="code-block">
+    <div class="code-label">Azure CLI — set rotation policy on a secret</div>
+    <pre><code><cm># Set rotation policy: rotate every 60 days, notify 30 days before expiry</cm>
+az keyvault secret set-attributes \
+  --vault-name myVault \
+  --name openai-api-key \
+  --expires <st>"2025-12-31T00:00:00Z"</st>
+
+<cm># Create rotation policy (available for storage account keys, etc.)</cm>
+az keyvault secret rotation-policy update \
+  --vault-name myVault \
+  --name storage-key \
+  --value <st>'{"lifetimeActions":[{"trigger":{"timeBeforeExpiry":"P30D"},"action":{"type":"Notify"}},{"trigger":{"timeAfterCreate":"P60D"},"action":{"type":"Rotate"}}],"attributes":{"expiryTime":"P90D"}}'</st></code></pre>
+  </div>
+</section>
+
+<!-- KEY VAULT REFERENCES -->
+<section class="section" id="kv-refs">
+  <div class="section-badge">Azure Key Vault</div>
+  <h2>Key Vault References</h2>
+  <p>Key Vault References let App Service and Azure Functions pull secret values <strong>at runtime without any SDK code</strong>. The platform automatically resolves the reference and injects the secret value as an environment variable/app setting.</p>
+
+  <h3>Reference Syntax</h3>
+  <div class="code-block">
+    <div class="code-label">App Settings — Key Vault Reference formats</div>
+    <pre><code><cm># Format 1: Using Secret URI (specific version)</cm>
+<nm>OPENAI_API_KEY</nm>=<op>@Microsoft.KeyVault</op>(<nm>SecretUri</nm>=https://my-vault.vault.azure.net/secrets/openai-api-key/abc123version)
+
+<cm># Format 2: Using VaultName + SecretName (always latest version — RECOMMENDED)</cm>
+<nm>OPENAI_API_KEY</nm>=<op>@Microsoft.KeyVault</op>(<nm>VaultName</nm>=my-vault;<nm>SecretName</nm>=openai-api-key)
+
+<cm># Format 3: With specific version via VaultName syntax</cm>
+<nm>OPENAI_API_KEY</nm>=<op>@Microsoft.KeyVault</op>(<nm>VaultName</nm>=my-vault;<nm>SecretName</nm>=openai-api-key;<nm>SecretVersion</nm>=abc123version)</code></pre>
+  </div>
+
+  <h3>Required Setup</h3>
+  <ol>
+    <li>Enable <strong>system-assigned managed identity</strong> on App Service or Function App</li>
+    <li>Assign <strong>Key Vault Secrets User</strong> role to the managed identity on the vault (RBAC) <strong>OR</strong> add a <strong>Get</strong> permission in Access Policies</li>
+    <li>Set the app setting value to the <code>@Microsoft.KeyVault(...)</code> reference string</li>
+    <li>The resolved value is accessible as <code>os.environ["OPENAI_API_KEY"]</code> — no SDK needed</li>
+  </ol>
+
+  <h3>CLI Setup</h3>
+  <div class="code-block">
+    <div class="code-label">Azure CLI — enable managed identity and set KV reference</div>
+    <pre><code><cm># Enable system-assigned managed identity on Function App</cm>
+az functionapp identity assign \
+  --name myFunctionApp \
+  --resource-group myRG
+
+<cm># Assign Key Vault Secrets User role to the managed identity</cm>
+az role assignment create \
+  --role <st>"Key Vault Secrets User"</st> \
+  --assignee <nm>$(az functionapp identity show --name myFunctionApp --resource-group myRG --query principalId -o tsv)</nm> \
+  --scope <nm>$(az keyvault show --name myVault --query id -o tsv)</nm>
+
+<cm># Set the Key Vault Reference as an app setting</cm>
+az functionapp config appsettings set \
+  --name myFunctionApp --resource-group myRG \
+  --settings <st>"OPENAI_API_KEY=@Microsoft.KeyVault(VaultName=myVault;SecretName=openai-api-key)"</st></code></pre>
+  </div>
+
+  <div class="callout must-know">
+    <span class="callout-icon">&#128218;</span>
+    <div class="callout-body">
+      <strong>VaultName;SecretName format (no version) = Latest Active Version</strong>
+      <p>Using <code>VaultName=...;SecretName=...</code> without <code>SecretVersion</code> always resolves to the latest <strong>enabled</strong> version. This is the recommended pattern for secrets that rotate — after rotation creates a new version, all apps automatically pick it up on next secret refresh (within ~24 hours or on app restart). Use the versioned form only when you need to pin to a specific version.</p>
+    </div>
+  </div>
+</section>
+<!-- APP CONFIGURATION OVERVIEW -->
+<section class="section" id="ac-overview">
+  <div class="section-badge">Azure App Configuration</div>
+  <h2>Architecture &amp; Core Concepts</h2>
+  <p>Azure App Configuration is a managed service for centralized application configuration management. It stores key-value pairs, supports labels for environment separation, feature flags for controlled rollout, and Key Vault references. It complements Key Vault — App Config stores non-secret configuration; Key Vault stores secrets.</p>
+
+  <div class="graphic-placeholder">
+    <strong>GRAPHIC REQUIRED — App Configuration Architecture</strong>
+    <p>Diagram: App Configuration store → Applications (App Service, Functions, Container Apps) pulling config at startup and on refresh. Shows labels (dev/prod), feature flags (Microsoft.FeatureManagement), and Key Vault references in same store. Dynamic refresh via sentinel key watch.</p>
+  </div>
+
+  <h3>Key-Value Structure</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Concept</th><th>Description</th><th>Example</th></tr>
+      <tr><td><strong>Key</strong></td><td>Hierarchical identifier. Use <code>:</code> or <code>/</code> as separator</td><td><code>App:OpenAI:Endpoint</code></td></tr>
+      <tr><td><strong>Value</strong></td><td>String value (can be JSON string)</td><td><code>https://myai.openai.azure.com/</code></td></tr>
+      <tr><td><strong>Label</strong></td><td>Dimension for multi-environment config. Default label is empty (null)</td><td><code>Production</code>, <code>Development</code>, <code>v2.0</code></td></tr>
+      <tr><td><strong>Content Type</strong></td><td>Hints for value interpretation</td><td><code>application/json</code></td></tr>
+      <tr><td><strong>ETag</strong></td><td>Optimistic concurrency / change detection</td><td>auto-managed</td></tr>
+    </table>
+  </div>
+
+  <h3>Service Tiers</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Tier</th><th>Storage</th><th>Requests/Day</th><th>Feature Flags</th><th>Snapshots</th></tr>
+      <tr><td><strong>Free</strong></td><td>10 MB</td><td>1,000</td><td>&#9989;</td><td>&#10060;</td></tr>
+      <tr><td><strong>Standard</strong></td><td>Unlimited</td><td>Unlimited</td><td>&#9989;</td><td>&#9989;</td></tr>
+    </table>
+  </div>
+
+  <div class="callout tip">
+    <span class="callout-icon">&#128161;</span>
+    <div class="callout-body">
+      <strong>App Config vs Key Vault — When to Use Which</strong>
+      <ul>
+        <li><strong>App Configuration:</strong> Non-secret settings, feature flags, environment-specific config (<code>MaxRetries: 3</code>, <code>Model: gpt-4</code>, <code>EnableNewUI: true</code>)</li>
+        <li><strong>Key Vault:</strong> Secrets, passwords, connection strings, API keys, certificates</li>
+        <li><strong>Both together:</strong> Store a <em>Key Vault Reference</em> in App Config — non-secret keys point to KV secrets. App Config provides the label/environment layer; KV provides secret security.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- APP CONFIGURATION CRUD -->
+<section class="section" id="ac-crud">
+  <div class="section-badge">Azure App Configuration</div>
+  <h2>SDK Connection &amp; CRUD Operations</h2>
+
+  <h3>Python SDK</h3>
+  <div class="code-block">
+    <div class="code-label">pip install</div>
+    <pre><code>pip install azure-appconfiguration azure-identity</code></pre>
+  </div>
+
+  <div class="code-block">
+    <div class="code-label">Python — AzureAppConfigurationClient full CRUD</div>
+    <pre><code><kw>from</kw> <nm>azure.appconfiguration</nm> <kw>import</kw> <fn>AzureAppConfigurationClient</fn>, <fn>ConfigurationSetting</fn>
+<kw>from</kw> <nm>azure.identity</nm> <kw>import</kw> <fn>DefaultAzureCredential</fn>
+<kw>import</kw> <nm>os</nm>
+
+<cm># Option 1: Connection string (dev/test)</cm>
+<nm>client</nm> = <fn>AzureAppConfigurationClient</fn>.<fn>from_connection_string</fn>(
+    <nm>os</nm>.<nm>environ</nm>[<st>"APPCONFIG_CONNECTION_STRING"</st>]
+)
+
+<cm># Option 2: Managed Identity (recommended for production)</cm>
+<nm>client</nm> = <fn>AzureAppConfigurationClient</fn>(
+    <nm>base_url</nm>=<st>"https://my-appconfig.azconfig.io"</st>,
+    <nm>credential</nm>=<fn>DefaultAzureCredential</fn>()
+)
+
+<cm># --- SET configuration ---</cm>
+<nm>setting</nm> = <fn>ConfigurationSetting</fn>(
+    <nm>key</nm>=<st>"App:OpenAI:MaxTokens"</st>,
+    <nm>value</nm>=<st>"4096"</st>,
+    <nm>label</nm>=<st>"Production"</st>,
+    <nm>content_type</nm>=<st>"text/plain"</st>,
+    <nm>tags</nm>={<st>"owner"</st>: <st>"ai-team"</st>}
+)
+<nm>created</nm> = <nm>client</nm>.<fn>set_configuration_setting</fn>(<nm>setting</nm>)
+<nm>print</nm>(<st>f"ETag: {created.etag}"</st>)
+
+<cm># --- GET configuration ---</cm>
+<nm>retrieved</nm> = <nm>client</nm>.<fn>get_configuration_setting</fn>(
+    <nm>key</nm>=<st>"App:OpenAI:MaxTokens"</st>,
+    <nm>label</nm>=<st>"Production"</st>
+)
+<nm>print</nm>(<st>f"Value: {retrieved.value}"</st>)
+
+<cm># --- GET without label (uses null label)</cm>
+<nm>default</nm> = <nm>client</nm>.<fn>get_configuration_setting</fn>(<nm>key</nm>=<st>"App:DefaultModel"</st>)
+
+<cm># --- LIST all Production settings</cm>
+<kw>for</kw> <nm>s</nm> <kw>in</kw> <nm>client</nm>.<fn>list_configuration_settings</fn>(<nm>label_filter</nm>=<st>"Production"</st>):
+    <nm>print</nm>(<st>f"  {s.key} = {s.value}"</st>)
+
+<cm># --- LIST with key prefix filter</cm>
+<kw>for</kw> <nm>s</nm> <kw>in</kw> <nm>client</nm>.<fn>list_configuration_settings</fn>(
+    <nm>key_filter</nm>=<st>"App:OpenAI:*"</st>,
+    <nm>label_filter</nm>=<st>"Production"</st>
+):
+    <nm>print</nm>(<st>f"  {s.key} ({s.label}) = {s.value}"</st>)
+
+<cm># --- UPDATE (set with existing key creates new revision)</cm>
+<nm>client</nm>.<fn>set_configuration_setting</fn>(<fn>ConfigurationSetting</fn>(
+    <nm>key</nm>=<st>"App:OpenAI:MaxTokens"</st>, <nm>value</nm>=<st>"8192"</st>, <nm>label</nm>=<st>"Production"</st>
+))
+
+<cm># --- DELETE</cm>
+<nm>client</nm>.<fn>delete_configuration_setting</fn>(
+    <nm>key</nm>=<st>"App:OpenAI:MaxTokens"</st>,
+    <nm>label</nm>=<st>"Production"</st>
+)</code></pre>
+  </div>
+
+  <h3>Required RBAC Roles</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Role</th><th>Permissions</th><th>Use Case</th></tr>
+      <tr><td><strong>App Configuration Data Owner</strong></td><td>Full CRUD on key-values and feature flags</td><td>Admin/deployment pipelines</td></tr>
+      <tr><td><strong>App Configuration Data Reader</strong></td><td>Read key-values only</td><td>Application runtime (most apps only need read)</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- APP CONFIGURATION LABELS -->
+<section class="section" id="ac-labels">
+  <div class="section-badge">Azure App Configuration</div>
+  <h2>Labels &amp; Environment Management</h2>
+  <p>Labels allow the same key to have different values for different environments, deployments, or versions. An app configuration client can be configured to prefer a label with fallback to the null (default) label.</p>
+
+  <h3>Label Strategy for Multi-Environment</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Key</th><th>Label</th><th>Value</th></tr>
+      <tr><td>App:OpenAI:Endpoint</td><td>(null)</td><td>https://dev-ai.openai.azure.com/</td></tr>
+      <tr><td>App:OpenAI:Endpoint</td><td>Staging</td><td>https://stage-ai.openai.azure.com/</td></tr>
+      <tr><td>App:OpenAI:Endpoint</td><td>Production</td><td>https://prod-ai.openai.azure.com/</td></tr>
+      <tr><td>App:MaxRetries</td><td>(null)</td><td>3</td></tr>
+      <tr><td>App:MaxRetries</td><td>Production</td><td>5</td></tr>
+    </table>
+  </div>
+
+  <h3>.NET — ConfigurationBuilder with Labels (Fallback Pattern)</h3>
+  <div class="code-block">
+    <div class="code-label">C# — AddAzureAppConfiguration with label and fallback</div>
+    <pre><code><cm>// Program.cs</cm>
+<nm>builder</nm>.<nm>Configuration</nm>.<fn>AddAzureAppConfiguration</fn>(<nm>options</nm> =>
+{
+    <nm>options</nm>.<fn>Connect</fn>(<kw>new</kw> <fn>Uri</fn>(<st>"https://my-appconfig.azconfig.io"</st>),
+        <kw>new</kw> <fn>DefaultAzureCredential</fn>());
+
+    <cm>// Load Production label settings, fall back to null label for missing keys</cm>
+    <nm>options</nm>
+        .<fn>Select</fn>(<st>"App:*"</st>, <nm>LabelFilter</nm>.<nm>Null</nm>)  <cm>// load defaults first</cm>
+        .<fn>Select</fn>(<st>"App:*"</st>, <st>"Production"</st>);    <cm>// override with Production label</cm>
+
+    <cm>// Configure refresh</cm>
+    <nm>options</nm>.<fn>ConfigureRefresh</fn>(<nm>refresh</nm> =>
+        <nm>refresh</nm>.<fn>Register</fn>(<st>"App:Sentinel"</st>, <st>"Production"</st>, <nm>refreshAll</nm>: <kw>true</kw>)
+                .<fn>SetRefreshInterval</fn>(<nm>TimeSpan</nm>.<fn>FromSeconds</fn>(<num>30</num>))
+    );
+});
+
+<cm>// Use settings</cm>
+<kw>var</kw> <nm>endpoint</nm> = <nm>builder</nm>.<nm>Configuration</nm>[<st>"App:OpenAI:Endpoint"</st>];</code></pre>
+  </div>
+</section>
+<!-- APP CONFIGURATION FEATURE FLAGS -->
+<section class="section" id="ac-flags">
+  <div class="section-badge">Azure App Configuration</div>
+  <h2>Feature Flags</h2>
+  <p>Feature flags enable gradual feature rollout without redeployment. Azure App Configuration integrates with <code>Microsoft.FeatureManagement</code> (.NET) and <code>featuremanagement-azure</code> (Python) for evaluating flags at runtime.</p>
+
+  <h3>Feature Flag Storage Format</h3>
+  <p>Feature flags are stored as special key-value pairs with key prefix <code>.appconfig.featureflag/</code>. The App Configuration portal has a dedicated Feature Manager UI.</p>
+
+  <div class="code-block">
+    <div class="code-label">JSON — internal feature flag storage format</div>
+    <pre><code>{
+  <st>"id"</st>: <st>"NewAiModel"</st>,
+  <st>"description"</st>: <st>"Enable GPT-4o model"</st>,
+  <st>"enabled"</st>: <kw>true</kw>,
+  <st>"conditions"</st>: {
+    <st>"client_filters"</st>: [
+      {
+        <st>"name"</st>: <st>"Microsoft.Percentage"</st>,
+        <st>"parameters"</st>: { <st>"Value"</st>: <num>20</num> }  <cm>// 20% rollout</cm>
+      }
+    ]
+  }
+}</code></pre>
+  </div>
+
+  <h3>Python — Feature Flag Evaluation</h3>
+  <div class="code-block">
+    <div class="code-label">Python — check feature flag with azure-appconfiguration-provider</div>
+    <pre><code>pip install azure-appconfiguration-provider featuremanagement</code></pre>
+  </div>
+
+  <div class="code-block">
+    <div class="code-label">Python — load config with feature flags</div>
+    <pre><code><kw>from</kw> <nm>azure.appconfiguration.provider</nm> <kw>import</kw> <fn>load</fn>, <fn>FeatureFlagOptions</fn>
+<kw>from</kw> <nm>featuremanagement</nm> <kw>import</kw> <fn>FeatureManager</fn>
+<kw>from</kw> <nm>azure.identity</nm> <kw>import</kw> <fn>DefaultAzureCredential</fn>
+
+<cm># Load config + feature flags</cm>
+<nm>config</nm> = <fn>load</fn>(
+    <nm>endpoint</nm>=<st>"https://my-appconfig.azconfig.io"</st>,
+    <nm>credential</nm>=<fn>DefaultAzureCredential</fn>(),
+    <nm>feature_flag_options</nm>=<fn>FeatureFlagOptions</fn>(
+        <nm>enabled</nm>=<kw>True</kw>,
+        <nm>feature_flag_prefix</nm>=<st>"App:"</st>
+    )
+)
+
+<nm>feature_manager</nm> = <fn>FeatureManager</fn>(<nm>config</nm>)
+
+<cm># Evaluate feature flag</cm>
+<kw>if</kw> <nm>feature_manager</nm>.<fn>is_enabled</fn>(<st>"NewAiModel"</st>):
+    <nm>model</nm> = <st>"gpt-4o"</st>
+<kw>else</kw>:
+    <nm>model</nm> = <st>"gpt-4"</st></code></pre>
+  </div>
+
+  <h3>C# — Feature Management Integration</h3>
+  <div class="code-block">
+    <div class="code-label">C# — feature flags with Microsoft.FeatureManagement</div>
+    <pre><code><cm>// Program.cs — add feature management</cm>
+<nm>builder</nm>.<nm>Configuration</nm>.<fn>AddAzureAppConfiguration</fn>(<nm>options</nm> =>
+{
+    <nm>options</nm>.<fn>Connect</fn>(<nm>endpoint</nm>, <nm>credential</nm>);
+    <nm>options</nm>.<fn>UseFeatureFlags</fn>();
+    <nm>options</nm>.<fn>ConfigureRefresh</fn>(<nm>r</nm> => <nm>r</nm>.<fn>Register</fn>(<st>"App:Sentinel"</st>, <nm>refreshAll</nm>: <kw>true</kw>));
+});
+<nm>builder</nm>.<nm>Services</nm>.<fn>AddFeatureManagement</fn>();
+
+<cm>// In controller/service</cm>
+<kw>public class</kw> <fn>AiController</fn>(<nm>IFeatureManager</nm> <nm>featureManager</nm>)
+{
+    [<nm>HttpGet</nm>]
+    <kw>public async</kw> <nm>Task</nm>&lt;<nm>IActionResult</nm>&gt; <fn>GetResponse</fn>()
+    {
+        <nm>string</nm> <nm>model</nm> = <kw>await</kw> <nm>featureManager</nm>.<fn>IsEnabledAsync</fn>(<st>"NewAiModel"</st>)
+            ? <st>"gpt-4o"</st> : <st>"gpt-4"</st>;
+        <cm>// use model...</cm>
+        <kw>return</kw> <fn>Ok</fn>(<nm>model</nm>);
+    }
+}</code></pre>
+  </div>
+
+  <h3>Built-in Feature Filters</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Filter</th><th>Description</th></tr>
+      <tr><td><strong>Microsoft.Percentage</strong></td><td>Enable for a percentage of requests (0–100)</td></tr>
+      <tr><td><strong>Microsoft.TimeWindow</strong></td><td>Enable during a specific time window (start/end dates)</td></tr>
+      <tr><td><strong>Microsoft.Targeting</strong></td><td>Enable for specific users, groups, or percentage of others</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- APP CONFIGURATION DYNAMIC REFRESH -->
+<section class="section" id="ac-refresh">
+  <div class="section-badge">Azure App Configuration</div>
+  <h2>Dynamic Refresh &amp; Snapshots</h2>
+
+  <h3>Sentinel Key Pattern</h3>
+  <p>Rather than watching every key for changes (expensive), nominate a single <strong>sentinel key</strong> (e.g., <code>App:Sentinel</code>) that you update whenever you want to push a config reload. The SDK polls only this key; when it changes, it reloads all registered keys.</p>
+
+  <div class="code-block">
+    <div class="code-label">Azure CLI — update sentinel to trigger config reload in all apps</div>
+    <pre><code><cm># After updating production config, bump the sentinel to trigger reload</cm>
+az appconfig kv set \
+  --name my-appconfig \
+  --key <st>"App:Sentinel"</st> \
+  --label <st>"Production"</st> \
+  --value <st>"$(date -u +%Y%m%dT%H%M%SZ)"</st>  <cm># any new value triggers reload</cm></code></pre>
+  </div>
+
+  <h3>Python — Dynamic Refresh with Provider</h3>
+  <div class="code-block">
+    <div class="code-label">Python — azure-appconfiguration-provider with refresh</div>
+    <pre><code><kw>from</kw> <nm>azure.appconfiguration.provider</nm> <kw>import</kw> <fn>load</fn>, <fn>WatchKey</fn>
+<kw>from</kw> <nm>datetime</nm> <kw>import</kw> <nm>timedelta</nm>
+
+<nm>config</nm> = <fn>load</fn>(
+    <nm>endpoint</nm>=<st>"https://my-appconfig.azconfig.io"</st>,
+    <nm>credential</nm>=<fn>DefaultAzureCredential</fn>(),
+    <nm>refresh_on</nm>=[<fn>WatchKey</fn>(<st>"App:Sentinel"</st>, <nm>label</nm>=<st>"Production"</st>)],
+    <nm>refresh_interval</nm>=<fn>timedelta</fn>(<nm>seconds</nm>=<num>30</num>)
+)
+
+<cm># In your request handler or background loop</cm>
+<nm>config</nm>.<fn>refresh</fn>()  <cm># checks sentinel; reloads all keys if sentinel changed</cm>
+<nm>max_tokens</nm> = <nm>config</nm>[<st>"App:OpenAI:MaxTokens"</st>]</code></pre>
+  </div>
+
+  <h3>Snapshots</h3>
+  <p>Snapshots are immutable point-in-time captures of all key-values in a store. Use for audit trails, rollback, and consistent configuration deployments across multiple instances.</p>
+
+  <div class="code-block">
+    <div class="code-label">Azure CLI — create and use a snapshot</div>
+    <pre><code><cm># Create snapshot of current Production config</cm>
+az appconfig snapshot create \
+  --name v2-config-snapshot \
+  --appconfig-name my-appconfig \
+  --filters <st>'[{"key":"App:*","label":"Production"}]'</st> \
+  --retention-period 2592000  <cm># 30 days in seconds</cm>
+
+<cm># Archive (soft-delete) a snapshot</cm>
+az appconfig snapshot archive \
+  --name v2-config-snapshot \
+  --appconfig-name my-appconfig</code></pre>
+  </div>
+
+  <div class="callout must-know">
+    <span class="callout-icon">&#128218;</span>
+    <div class="callout-body">
+      <strong>Sentinel Key Pattern — Exam Summary</strong>
+      <p>The sentinel key is the <strong>recommended pattern</strong> for dynamic refresh in production. Instead of watching all config keys (which would poll each key individually), register one sentinel key. The SDK polls only the sentinel at the configured interval (default 30s). When its ETag changes (you updated its value), the SDK reloads all watched configuration. This minimizes API calls while still enabling near-real-time config updates.</p>
+    </div>
+  </div>
+</section>
+
+<!-- OPENTELEMETRY OVERVIEW -->
+<section class="section" id="otel-overview">
+  <div class="section-badge">OpenTelemetry</div>
+  <h2>Distributed Tracing Concepts</h2>
+  <p>OpenTelemetry (OTel) is the CNCF standard for observability instrumentation. It provides a vendor-neutral SDK for collecting traces, metrics, and logs. The <strong>Azure Monitor OpenTelemetry Exporter</strong> sends OTel data to Application Insights.</p>
+
+  <div class="graphic-placeholder">
+    <strong>GRAPHIC REQUIRED — OpenTelemetry Architecture</strong>
+    <p>Diagram: Application → OTel SDK (TracerProvider, MeterProvider) → Azure Monitor Exporter → Application Insights. Shows trace → span hierarchy: one trace = one request, spans = individual operations within. W3C traceparent header propagating across microservices.</p>
+  </div>
+
+  <h3>Core Concepts</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Concept</th><th>Description</th></tr>
+      <tr><td><strong>Trace</strong></td><td>End-to-end journey of a single request across all services. Identified by a 128-bit <code>trace_id</code>.</td></tr>
+      <tr><td><strong>Span</strong></td><td>Single named, timed operation within a trace. Has a <code>span_id</code>, start/end time, status, attributes, and events.</td></tr>
+      <tr><td><strong>Parent Span</strong></td><td>A span can have a parent span, forming a tree. Root span has no parent.</td></tr>
+      <tr><td><strong>SpanContext</strong></td><td>Propagated across network boundaries: <code>trace_id</code> (16 bytes) + <code>span_id</code> (8 bytes) + <code>trace_flags</code></td></tr>
+      <tr><td><strong>Attributes</strong></td><td>Key-value metadata on a span (e.g., <code>db.system=cosmosdb</code>, <code>http.status_code=200</code>)</td></tr>
+      <tr><td><strong>Events</strong></td><td>Time-stamped annotations on a span (e.g., "cache miss", "retry attempt 2")</td></tr>
+      <tr><td><strong>Status</strong></td><td>UNSET, OK, or ERROR. Set to ERROR on exception.</td></tr>
+      <tr><td><strong>Metrics</strong></td><td>Numeric measurements aggregated over time (counters, histograms, gauges)</td></tr>
+      <tr><td><strong>Logs</strong></td><td>Structured log records correlated to traces via trace/span ID</td></tr>
+    </table>
+  </div>
+
+  <h3>W3C TraceContext Propagation</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Header</th><th>Format</th><th>Purpose</th></tr>
+      <tr><td><code>traceparent</code></td><td><code>00-{traceId}-{spanId}-{flags}</code></td><td>Carries trace and span IDs across HTTP calls</td></tr>
+      <tr><td><code>tracestate</code></td><td>Vendor-specific key=value pairs</td><td>Vendor-specific correlation data</td></tr>
+    </table>
+  </div>
+
+  <div class="code-block">
+    <div class="code-label">Example — traceparent header</div>
+    <pre><code>traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01
+<cm># Format: version(2)-traceId(32hex)-parentSpanId(16hex)-flags(2hex)</cm>
+<cm># flags=01 means sampled</cm></code></pre>
+  </div>
+</section>
+<!-- OPENTELEMETRY PYTHON -->
+<section class="section" id="otel-python">
+  <div class="section-badge">OpenTelemetry</div>
+  <h2>Python Setup &amp; Instrumentation</h2>
+  <p>Use the <code>azure-monitor-opentelemetry</code> package for the simplest Azure Monitor integration. It configures the OTel SDK, sets up auto-instrumentation, and wires the Azure Monitor exporter in one call.</p>
+
+  <h3>Install Packages</h3>
+  <div class="code-block">
+    <div class="code-label">pip install</div>
+    <pre><code>pip install azure-monitor-opentelemetry
+<cm># Auto-instruments: requests, httpx, aiohttp, Flask, Django, FastAPI, SQLAlchemy, etc.</cm></code></pre>
+  </div>
+
+  <h3>One-Call Setup</h3>
+  <div class="code-block">
+    <div class="code-label">Python — configure_azure_monitor (auto-instrumentation)</div>
+    <pre><code><kw>from</kw> <nm>azure.monitor.opentelemetry</nm> <kw>import</kw> <fn>configure_azure_monitor</fn>
+<kw>import</kw> <nm>os</nm>
+
+<cm># Call once at app startup — BEFORE creating any HTTP clients or DB connections</cm>
+<fn>configure_azure_monitor</fn>(
+    <nm>connection_string</nm>=<nm>os</nm>.<nm>environ</nm>[<st>"APPLICATIONINSIGHTS_CONNECTION_STRING"</st>]
+)
+<cm># Connection string format: InstrumentationKey=xxx;IngestionEndpoint=https://...</cm>
+<cm># Available from App Insights resource → Overview → Connection String</cm></code></pre>
+  </div>
+
+  <h3>Manual Span Creation</h3>
+  <div class="code-block">
+    <div class="code-label">Python — manual trace instrumentation with OpenTelemetry API</div>
+    <pre><code><kw>from</kw> <nm>opentelemetry</nm> <kw>import</kw> <nm>trace</nm>
+<kw>from</kw> <nm>opentelemetry.trace</nm> <kw>import</kw> <nm>SpanKind</nm>, <nm>StatusCode</nm>
+<kw>import</kw> <nm>logging</nm>
+
+<nm>logger</nm> = <nm>logging</nm>.<fn>getLogger</fn>(<nm>__name__</nm>)
+<nm>tracer</nm> = <nm>trace</nm>.<fn>get_tracer</fn>(<nm>__name__</nm>)
+
+<kw>def</kw> <fn>call_ai_model</fn>(<nm>prompt</nm>: <nm>str</nm>, <nm>model</nm>: <nm>str</nm>) -> <nm>str</nm>:
+    <kw>with</kw> <nm>tracer</nm>.<fn>start_as_current_span</fn>(
+        <st>"ai.inference"</st>,
+        <nm>kind</nm>=<nm>SpanKind</nm>.<nm>CLIENT</nm>
+    ) <kw>as</kw> <nm>span</nm>:
+        <cm># Set semantic attributes</cm>
+        <nm>span</nm>.<fn>set_attribute</fn>(<st>"ai.model"</st>, <nm>model</nm>)
+        <nm>span</nm>.<fn>set_attribute</fn>(<st>"ai.prompt_length"</st>, <fn>len</fn>(<nm>prompt</nm>))
+        <nm>span</nm>.<fn>set_attribute</fn>(<st>"service.name"</st>, <st>"inference-service"</st>)
+
+        <kw>try</kw>:
+            <cm># Add an event (timestamped annotation)</cm>
+            <nm>span</nm>.<fn>add_event</fn>(<st>"request_started"</st>, {<st>"model"</st>: <nm>model</nm>})
+
+            <cm># ... call AI model ...</cm>
+            <nm>result</nm> = <st>f"AI response for {model}"</st>
+            <nm>tokens_used</nm> = <num>450</num>
+
+            <nm>span</nm>.<fn>set_attribute</fn>(<st>"ai.tokens_used"</st>, <nm>tokens_used</nm>)
+            <nm>span</nm>.<fn>add_event</fn>(<st>"request_completed"</st>, {<st>"tokens"</st>: <nm>tokens_used</nm>})
+            <nm>span</nm>.<fn>set_status</fn>(<nm>StatusCode</nm>.<nm>OK</nm>)
+            <kw>return</kw> <nm>result</nm>
+
+        <kw>except</kw> <fn>Exception</fn> <kw>as</kw> <nm>e</nm>:
+            <nm>span</nm>.<fn>record_exception</fn>(<nm>e</nm>)
+            <nm>span</nm>.<fn>set_status</fn>(<nm>StatusCode</nm>.<nm>ERROR</nm>, <fn>str</fn>(<nm>e</nm>))
+            <kw>raise</kw>
+
+<kw>def</kw> <fn>rag_pipeline</fn>(<nm>query</nm>: <nm>str</nm>) -> <nm>str</nm>:
+    <kw>with</kw> <nm>tracer</nm>.<fn>start_as_current_span</fn>(<st>"rag.pipeline"</st>) <kw>as</kw> <nm>parent_span</nm>:
+        <nm>parent_span</nm>.<fn>set_attribute</fn>(<st>"query.length"</st>, <fn>len</fn>(<nm>query</nm>))
+
+        <cm># Child span for vector search</cm>
+        <kw>with</kw> <nm>tracer</nm>.<fn>start_as_current_span</fn>(<st>"rag.vector_search"</st>) <kw>as</kw> <nm>span</nm>:
+            <nm>span</nm>.<fn>set_attribute</fn>(<st>"db.system"</st>, <st>"cosmosdb"</st>)
+            <nm>span</nm>.<fn>set_attribute</fn>(<st>"db.operation"</st>, <st>"VectorDistance"</st>)
+            <nm>chunks</nm> = []  <cm># vector search results</cm>
+
+        <cm># Child span for LLM call</cm>
+        <kw>with</kw> <nm>tracer</nm>.<fn>start_as_current_span</fn>(<st>"rag.llm_call"</st>) <kw>as</kw> <nm>span</nm>:
+            <nm>span</nm>.<fn>set_attribute</fn>(<st>"llm.model"</st>, <st>"gpt-4"</st>)
+            <nm>result</nm> = <fn>call_ai_model</fn>(<nm>query</nm>, <st>"gpt-4"</st>)
+
+        <kw>return</kw> <nm>result</nm></code></pre>
+  </div>
+
+  <h3>Sampling Configuration</h3>
+  <div class="code-block">
+    <div class="code-label">Python — configure sampling rate</div>
+    <pre><code><kw>from</kw> <nm>azure.monitor.opentelemetry</nm> <kw>import</kw> <fn>configure_azure_monitor</fn>
+
+<fn>configure_azure_monitor</fn>(
+    <nm>connection_string</nm>=<nm>conn_str</nm>,
+    <nm>sampling_ratio</nm>=<num>0.1</nm>  <cm># Sample 10% of traces (0.0–1.0)</cm>
+)</code></pre>
+  </div>
+
+  <div class="callout tip">
+    <span class="callout-icon">&#128161;</span>
+    <div class="callout-body">
+      <strong>Sampling Strategies</strong>
+      <ul>
+        <li><strong>AlwaysOn (1.0)</strong>: All traces sampled. Full observability, high cost.</li>
+        <li><strong>AlwaysOff (0.0)</strong>: No traces. Use for testing only.</li>
+        <li><strong>TraceIdRatioBased (0.1)</strong>: Sample 10% based on trace ID hash. Consistent — same trace is always in or out.</li>
+        <li><strong>ParentBased</strong> (default): Sample based on parent span decision. Ensures complete trace capture or none.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- OPENTELEMETRY DOTNET -->
+<section class="section" id="otel-dotnet">
+  <div class="section-badge">OpenTelemetry</div>
+  <h2>.NET Setup &amp; Instrumentation</h2>
+
+  <div class="code-block">
+    <div class="code-label">C# — OpenTelemetry + Azure Monitor in ASP.NET Core</div>
+    <pre><code><cm>// NuGet: Azure.Monitor.OpenTelemetry.AspNetCore</cm>
+<cm>// Program.cs</cm>
+<nm>builder</nm>.<nm>Services</nm>.<fn>AddOpenTelemetry</fn>()
+    .<fn>UseAzureMonitor</fn>()  <cm>// reads APPLICATIONINSIGHTS_CONNECTION_STRING env var</cm>
+    .<fn>WithTracing</fn>(<nm>tracing</nm> => <nm>tracing</nm>
+        .<fn>AddAspNetCoreInstrumentation</fn>()      <cm>// HTTP requests</cm>
+        .<fn>AddHttpClientInstrumentation</fn>()      <cm>// outbound HTTP calls</cm>
+        .<fn>AddSqlClientInstrumentation</fn>()       <cm>// SQL queries</cm>
+        .<fn>AddSource</fn>(<st>"MyApp.InferenceService"</st>))  <cm>// custom ActivitySource</cm>
+    .<fn>WithMetrics</fn>(<nm>metrics</nm> => <nm>metrics</nm>
+        .<fn>AddAspNetCoreInstrumentation</fn>()
+        .<fn>AddRuntimeInstrumentation</fn>());</code></pre>
+  </div>
+
+  <h3>Manual Spans in C# (ActivitySource)</h3>
+  <div class="code-block">
+    <div class="code-label">C# — manual instrumentation with ActivitySource</div>
+    <pre><code><kw>using</kw> <nm>System.Diagnostics</nm>;
+
+<cm>// Define ActivitySource once per service (static or singleton)</cm>
+<kw>private static readonly</kw> <nm>ActivitySource</nm> <nm>_source</nm> =
+    <kw>new</kw>(<st>"MyApp.InferenceService"</st>, <st>"1.0.0"</st>);
+
+<kw>public async</kw> <nm>Task</nm>&lt;<nm>string</nm>&gt; <fn>CallAiModelAsync</fn>(<nm>string</nm> <nm>prompt</nm>, <nm>string</nm> <nm>model</nm>)
+{
+    <kw>using var</kw> <nm>activity</nm> = <nm>_source</nm>.<fn>StartActivity</fn>(<st>"ai.inference"</st>, <nm>ActivityKind</nm>.<nm>Client</nm>);
+    <nm>activity</nm>?.<fn>SetTag</fn>(<st>"ai.model"</st>, <nm>model</nm>);
+    <nm>activity</nm>?.<fn>SetTag</fn>(<st>"ai.prompt_length"</st>, <nm>prompt</nm>.<nm>Length</nm>);
+
+    <kw>try</kw>
+    {
+        <nm>activity</nm>?.<fn>AddEvent</fn>(<kw>new</kw> <nm>ActivityEvent</nm>(<st>"RequestStarted"</st>));
+        <kw>var</kw> <nm>result</nm> = <kw>await</kw> <fn>DoActualCallAsync</fn>(<nm>prompt</nm>, <nm>model</nm>);
+        <nm>activity</nm>?.<fn>SetTag</fn>(<st>"ai.tokens_used"</st>, <nm>result</nm>.<nm>Usage</nm>.<nm>TotalTokens</nm>);
+        <nm>activity</nm>?.<fn>SetStatus</fn>(<nm>ActivityStatusCode</nm>.<nm>Ok</nm>);
+        <kw>return</kw> <nm>result</nm>.<nm>Content</nm>;
+    }
+    <kw>catch</kw> (<nm>Exception</nm> <nm>ex</nm>)
+    {
+        <nm>activity</nm>?.<fn>SetStatus</fn>(<nm>ActivityStatusCode</nm>.<nm>Error</nm>, <nm>ex</nm>.<nm>Message</nm>);
+        <nm>activity</nm>?.<fn>RecordException</fn>(<nm>ex</nm>);
+        <kw>throw</kw>;
+    }
+}</code></pre>
+  </div>
+
+  <div class="callout must-know">
+    <span class="callout-icon">&#128218;</span>
+    <div class="callout-body">
+      <strong>OTel SDK vs Legacy Application Insights SDK</strong>
+      <ul>
+        <li><strong>OTel SDK</strong> (<code>azure-monitor-opentelemetry</code>): Vendor-neutral, CNCF standard, recommended for new workloads. Supports traces, metrics, and logs.</li>
+        <li><strong>Legacy AI SDK</strong> (<code>applicationinsights</code> Python / <code>Microsoft.ApplicationInsights</code> .NET): Still functional, but no new features. Being deprecated.</li>
+        <li>For the AI-200 exam: <strong>prefer OTel answers</strong> when given a choice between "OpenTelemetry SDK" and "Application Insights SDK".</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- KQL BASICS -->
+<section class="section" id="kql-basics">
+  <div class="section-badge">KQL</div>
+  <h2>KQL Fundamentals &amp; Syntax</h2>
+  <p>Kusto Query Language (KQL) is the query language for Azure Monitor Log Analytics and Application Insights. It uses a pipe (<code>|</code>) operator to chain operations.</p>
+
+  <h3>Basic Query Structure</h3>
+  <div class="code-block">
+    <div class="code-label">KQL — basic query structure</div>
+    <pre><code><nm>TableName</nm>
+<kw>| where</kw> <nm>condition</nm>
+<kw>| project</kw> <nm>column1</nm>, <nm>column2</nm>
+<kw>| order by</kw> <nm>column</nm> <kw>desc</kw>
+<kw>| take</kw> <num>100</num></code></pre>
+  </div>
+
+  <h3>Application Insights Tables</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Table</th><th>Contains</th><th>Key Columns</th></tr>
+      <tr><td><code>requests</code></td><td>Incoming HTTP requests to your app</td><td>name, duration, success, resultCode, url</td></tr>
+      <tr><td><code>dependencies</code></td><td>Outbound calls (HTTP, SQL, Service Bus, Cosmos DB)</td><td>name, target, type, duration, success</td></tr>
+      <tr><td><code>exceptions</code></td><td>Unhandled exceptions</td><td>type, outerMessage, innermostMessage, severityLevel</td></tr>
+      <tr><td><code>traces</code></td><td>Custom log traces (ILogger, print)</td><td>message, severityLevel, customDimensions</td></tr>
+      <tr><td><code>customEvents</code></td><td>Custom telemetry events</td><td>name, customDimensions, customMeasurements</td></tr>
+      <tr><td><code>customMetrics</code></td><td>Custom numeric measurements</td><td>name, value, count, min, max</td></tr>
+      <tr><td><code>availabilityResults</code></td><td>Availability (ping) test results</td><td>name, success, duration, location</td></tr>
+      <tr><td><code>performanceCounters</code></td><td>System metrics (CPU, memory)</td><td>name, category, counter, value</td></tr>
+    </table>
+  </div>
+
+  <h3>Common Column Names (Shared Across Tables)</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Column</th><th>Type</th><th>Description</th></tr>
+      <tr><td><code>timestamp</code></td><td>datetime</td><td>Event time (UTC)</td></tr>
+      <tr><td><code>operation_Id</code></td><td>string</td><td>Trace ID — correlates all telemetry in a single request</td></tr>
+      <tr><td><code>operation_ParentId</code></td><td>string</td><td>Parent span ID</td></tr>
+      <tr><td><code>cloud_RoleName</code></td><td>string</td><td>Service/component name</td></tr>
+      <tr><td><code>duration</code></td><td>real (ms)</td><td>Execution time in milliseconds</td></tr>
+      <tr><td><code>success</code></td><td>bool</td><td>Whether the operation succeeded</td></tr>
+    </table>
+  </div>
+</section>
+<!-- KQL OPERATORS -->
+<section class="section" id="kql-operators">
+  <div class="section-badge">KQL</div>
+  <h2>Key KQL Operators</h2>
+
+  <h3>Filtering — <code>where</code></h3>
+  <div class="code-block">
+    <div class="code-label">KQL — where operator examples</div>
+    <pre><code><cm>// Time range filter (always include for performance)</cm>
+requests
+<kw>| where</kw> timestamp > <fn>ago</fn>(<num>1</num><nm>h</nm>)
+<kw>| where</kw> success == <kw>false</kw>
+
+<cm>// String operators</cm>
+exceptions
+<kw>| where</kw> outerMessage <kw>contains</kw> <st>"timeout"</st>
+<kw>| where</kw> type <kw>startswith</kw> <st>"System."</st>
+<kw>| where</kw> cloud_RoleName <kw>in</kw> (<st>"inference-service"</st>, <st>"rag-service"</st>)
+<kw>| where</kw> severityLevel >= <num>3</num>  <cm>// 0=Verbose,1=Info,2=Warning,3=Error,4=Critical</cm>
+
+<cm>// Null checks</cm>
+requests
+<kw>| where</kw> isnotempty(customDimensions[<st>"tenant"</st>])
+
+<cm>// Regex match</cm>
+traces
+<kw>| where</kw> message <kw>matches regex</kw> <st>@"Error \d{3}"</st></code></pre>
+  </div>
+
+  <h3>Column Selection — <code>project</code>, <code>project-away</code>, <code>extend</code></h3>
+  <div class="code-block">
+    <div class="code-label">KQL — project and extend operators</div>
+    <pre><code><cm>// project: select and optionally rename columns</cm>
+requests
+<kw>| project</kw> timestamp, endpoint=name, durationMs=duration, success, resultCode
+
+<cm>// project-away: drop specific columns, keep rest</cm>
+requests
+<kw>| project-away</kw> itemType, _ItemId, customDimensions
+
+<cm>// extend: add computed columns</cm>
+requests
+<kw>| extend</kw> durationSec = duration / <num>1000.0</num>
+<kw>| extend</kw> isSlowRequest = duration > <num>2000</num>
+<kw>| extend</kw> tenantId = <fn>tostring</fn>(customDimensions[<st>"tenant"</st>])</code></pre>
+  </div>
+
+  <h3>Aggregation — <code>summarize</code></h3>
+  <div class="code-block">
+    <div class="code-label">KQL — summarize operator</div>
+    <pre><code><cm>// Count requests per endpoint per minute</cm>
+requests
+<kw>| where</kw> timestamp > <fn>ago</fn>(<num>1</num><nm>h</nm>)
+<kw>| summarize</kw> <fn>count</fn>() <kw>by</kw> name, <fn>bin</fn>(timestamp, <num>5</num><nm>m</nm>)
+
+<cm>// Multiple aggregates in one summarize</cm>
+requests
+<kw>| summarize</kw>
+    totalCount = <fn>count</fn>(),
+    failedCount = <fn>countif</fn>(success == <kw>false</kw>),
+    avgDuration = <fn>avg</fn>(duration),
+    p95Duration = <fn>percentile</fn>(duration, <num>95</num>),
+    p99Duration = <fn>percentile</fn>(duration, <num>99</num>)
+  <kw>by</kw> name
+
+<cm>// Calculate error rate</cm>
+requests
+<kw>| where</kw> timestamp > <fn>ago</fn>(<num>1</num><nm>h</nm>)
+<kw>| summarize</kw>
+    total = <fn>count</fn>(),
+    errors = <fn>countif</fn>(success == <kw>false</kw>)
+  <kw>by</kw> name
+<kw>| extend</kw> errorRate = <fn>round</fn>(<num>100.0</num> * errors / total, <num>2</num>)
+<kw>| order by</kw> errorRate <kw>desc</kw></code></pre>
+  </div>
+
+  <h3>Joining — <code>join</code></h3>
+  <div class="code-block">
+    <div class="code-label">KQL — join operations</div>
+    <pre><code"><cm>// inner join: only matching rows from both sides</cm>
+requests
+<kw>| where</kw> timestamp > <fn>ago</fn>(<num>1</num><nm>h</nm>)
+<kw>| join kind=inner</kw> (
+    exceptions
+    <kw>| where</kw> timestamp > <fn>ago</fn>(<num>1</num><nm>h</nm>)
+    <kw>| project</kw> operation_Id, exType=type, exMessage=outerMessage
+) <kw>on</kw> operation_Id
+<kw>| project</kw> timestamp, name, duration, exType, exMessage
+
+<cm>// leftouter: all requests, with exceptions if any</cm>
+requests
+<kw>| join kind=leftouter</kw> (exceptions | project operation_Id, exType=type) <kw>on</kw> operation_Id
+
+<cm>// Union: combine multiple tables</cm>
+<kw>union</kw> requests, dependencies, exceptions
+<kw>| where</kw> operation_Id == <st>"abc123"</st>
+<kw>| order by</kw> timestamp <kw>asc</kw></code></pre>
+  </div>
+
+  <h3>Time Functions</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Function</th><th>Description</th><th>Example</th></tr>
+      <tr><td><code>ago(1h)</code></td><td>Current time minus duration</td><td><code>where timestamp > ago(7d)</code></td></tr>
+      <tr><td><code>now()</code></td><td>Current UTC time</td><td><code>extend age = now() - timestamp</code></td></tr>
+      <tr><td><code>bin(col, 5m)</code></td><td>Round down to nearest bucket</td><td><code>by bin(timestamp, 1h)</code></td></tr>
+      <tr><td><code>startofday()</code></td><td>Midnight of date</td><td><code>where timestamp > startofday(now())</code></td></tr>
+      <tr><td><code>endofday()</code></td><td>Last instant of day</td><td>Filter to today</td></tr>
+      <tr><td><code>datetime()</code></td><td>Parse literal datetime</td><td><code>where timestamp > datetime(2025-01-01)</code></td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- KQL COMMON QUERIES -->
+<section class="section" id="kql-queries">
+  <div class="section-badge">KQL</div>
+  <h2>Common Application Insights Queries</h2>
+
+  <h3>Failed Requests Analysis</h3>
+  <div class="code-block">
+    <div class="code-label">KQL — failed requests in last hour, grouped by status code</div>
+    <pre><code>requests
+<kw>| where</kw> timestamp > <fn>ago</fn>(<num>1</num><nm>h</nm>)
+<kw>| where</kw> success == <kw>false</kw>
+<kw>| summarize</kw> failCount = <fn>count</fn>() <kw>by</kw> resultCode, name
+<kw>| order by</kw> failCount <kw>desc</kw>
+<kw>| render</kw> barchart</code></pre>
+  </div>
+
+  <h3>Latency Percentiles by Endpoint</h3>
+  <div class="code-block">
+    <div class="code-label">KQL — P50/P95/P99 latency per endpoint</div>
+    <pre><code>requests
+<kw>| where</kw> timestamp > <fn>ago</fn>(<num>24</num><nm>h</nm>)
+<kw>| summarize</kw>
+    p50 = <fn>percentile</fn>(duration, <num>50</num>),
+    p95 = <fn>percentile</fn>(duration, <num>95</num>),
+    p99 = <fn>percentile</fn>(duration, <num>99</num>),
+    requestCount = <fn>count</fn>()
+  <kw>by</kw> name
+<kw>| order by</kw> p99 <kw>desc</kw></code></pre>
+  </div>
+
+  <h3>Dependency Failure Rate</h3>
+  <div class="code-block">
+    <div class="code-label">KQL — dependency failure analysis (Cosmos DB, external APIs)</div>
+    <pre><code>dependencies
+<kw>| where</kw> timestamp > <fn>ago</fn>(<num>1</num><nm>h</nm>)
+<kw>| summarize</kw>
+    total = <fn>count</fn>(),
+    failed = <fn>countif</fn>(success == <kw>false</kw>),
+    avgDuration = <fn>avg</fn>(duration)
+  <kw>by</kw> target, type
+<kw>| extend</kw> failureRate = <fn>round</fn>(<num>100.0</num> * failed / total, <num>1</num>)
+<kw>| where</kw> failureRate > <num>0</num>
+<kw>| order by</kw> failureRate <kw>desc</kw></code></pre>
+  </div>
+
+  <h3>Distributed Trace — All Telemetry for a Request</h3>
+  <div class="code-block">
+    <div class="code-label">KQL — correlate all telemetry by operation_Id (trace ID)</div>
+    <pre><code"><kw>let</kw> targetOperation = <st>"a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4"</st>;
+<kw>union</kw> requests, dependencies, traces, exceptions, customEvents
+<kw>| where</kw> operation_Id == targetOperation
+<kw>| order by</kw> timestamp <kw>asc</kw>
+<kw>| project</kw> timestamp, itemType, name, duration, success,
+    message, severityLevel, outerMessage</code></pre>
+  </div>
+
+  <h3>Exception Trends Over Time</h3>
+  <div class="code-block">
+    <div class="code-label">KQL — exception count over time (rendered as time chart)</div>
+    <pre><code>exceptions
+<kw>| where</kw> timestamp > <fn>ago</fn>(<num>7</num><nm>d</nm>)
+<kw>| summarize</kw> exCount = <fn>count</fn>() <kw>by</kw> type, <fn>bin</fn>(timestamp, <num>1</num><nm>d</nm>)
+<kw>| render</kw> timechart</code></pre>
+  </div>
+
+  <h3>Custom Event Funnel Analysis</h3>
+  <div class="code-block">
+    <div class="code-label">KQL — custom events for AI feature usage tracking</div>
+    <pre><code>customEvents
+<kw>| where</kw> timestamp > <fn>ago</fn>(<num>7</num><nm>d</nm>)
+<kw>| where</kw> name <kw>in</kw> (<st>"QuerySubmitted"</st>, <st>"VectorSearchCompleted"</st>, <st>"AnswerGenerated"</st>)
+<kw>| summarize</kw> eventCount = <fn>count</fn>() <kw>by</kw> name, <fn>bin</fn>(timestamp, <num>1</num><nm>d</nm>)
+<kw>| render</kw> columnchart</code></pre>
+  </div>
+</section>
+
+<!-- KQL AGGREGATION -->
+<section class="section" id="kql-agg">
+  <div class="section-badge">KQL</div>
+  <h2>Aggregation Functions &amp; Advanced Patterns</h2>
+
+  <h3>Aggregation Functions Reference</h3>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Function</th><th>Description</th><th>Example</th></tr>
+      <tr><td><code>count()</code></td><td>Count all rows in group</td><td><code>summarize count() by name</code></td></tr>
+      <tr><td><code>countif(cond)</code></td><td>Count rows where condition is true</td><td><code>countif(success==false)</code></td></tr>
+      <tr><td><code>dcount(col)</code></td><td>Distinct count (approximate)</td><td><code>dcount(user_Id)</code></td></tr>
+      <tr><td><code>sum(col)</code></td><td>Sum of numeric values</td><td><code>sum(itemCount)</code></td></tr>
+      <tr><td><code>avg(col)</code></td><td>Average of numeric values</td><td><code>avg(duration)</code></td></tr>
+      <tr><td><code>min(col)</code> / <code>max(col)</code></td><td>Minimum / maximum value</td><td><code>max(duration)</code></td></tr>
+      <tr><td><code>percentile(col, N)</code></td><td>Nth percentile (e.g., 95)</td><td><code>percentile(duration, 95)</code></td></tr>
+      <tr><td><code>percentiles(col, p1, p2)</code></td><td>Multiple percentiles in one call</td><td><code>percentiles(duration, 50, 95, 99)</code></td></tr>
+      <tr><td><code>stdev(col)</code></td><td>Standard deviation</td><td><code>stdev(duration)</code></td></tr>
+      <tr><td><code>make_list(col)</code></td><td>Collect values into dynamic array</td><td>Group all error messages</td></tr>
+      <tr><td><code>any(col)</code></td><td>Return any single value from group</td><td>Sample URL from a group</td></tr>
+    </table>
+  </div>
+
+  <h3>Dynamic Columns &amp; JSON Parsing</h3>
+  <div class="code-block">
+    <div class="code-label">KQL — parse customDimensions (dynamic/JSON column)</div>
+    <pre><code>requests
+<kw>| where</kw> timestamp > <fn>ago</fn>(<num>1</num><nm>h</nm>)
+<cm>// Access dynamic (JSON) column fields</cm>
+<kw>| extend</kw>
+    tenantId = <fn>tostring</fn>(customDimensions[<st>"tenantId"</st>]),
+    model = <fn>tostring</fn>(customDimensions[<st>"aiModel"</st>]),
+    tokenCount = <fn>toint</fn>(customDimensions[<st>"tokensUsed"</st>])
+<kw>| where</kw> isnotempty(tenantId)
+<kw>| summarize</kw> totalTokens = <fn>sum</fn>(tokenCount) <kw>by</kw> tenantId, model
+
+<cm>// Parse structured string with parse operator</cm>
+traces
+<kw>| parse</kw> message <kw>with</kw> * <st>"RequestId="</st> reqId <st>" Tokens="</st> tokens <st>" Model="</st> model
+<kw>| project</kw> timestamp, reqId, tokens, model</code></pre>
+  </div>
+
+  <h3>Alerting Query Pattern</h3>
+  <div class="code-block">
+    <div class="code-label">KQL — alert query: error rate exceeds threshold</div>
+    <pre><code><cm>// Used in Log Analytics alert rules</cm>
+<cm>// Returns rows when error rate > 5% in last 5 minutes</cm>
+requests
+<kw>| where</kw> timestamp > <fn>ago</fn>(<num>5</num><nm>m</nm>)
+<kw>| summarize</kw>
+    total = <fn>count</fn>(),
+    errors = <fn>countif</fn>(success == <kw>false</kw>)
+<kw>| extend</kw> errorRate = <fn>round</fn>(<num>100.0</num> * errors / total, <num>2</num>)
+<kw>| where</kw> errorRate > <num>5</num> <kw>and</kw> total > <num>10</num>  <cm>// avoid noise on low traffic</cm></code></pre>
+  </div>
+
+  <div class="callout must-know">
+    <span class="callout-icon">&#128218;</span>
+    <div class="callout-body">
+      <strong>KQL Exam Quick Reference</strong>
+      <ul>
+        <li><code>where timestamp > ago(1h)</code> — always filter by time first</li>
+        <li><code>summarize count() by bin(timestamp, 5m)</code> — time-bucketed aggregation pattern</li>
+        <li><code>percentile(duration, 95)</code> — p95 latency query</li>
+        <li><code>union requests, dependencies, exceptions | where operation_Id == "..."</code> — trace correlation</li>
+        <li><code>| render timechart</code> — visualize as time series</li>
+        <li><code>tostring(customDimensions["key"])</code> — access JSON/dynamic fields</li>
+        <li><code>countif(success==false) / count()</code> — error rate formula</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<!-- FLASHCARDS -->
+<section class="section" id="flashcards">
+  <div class="section-badge">Review</div>
+  <h2>Flashcards</h2>
+  <p>Click each card to reveal the answer.</p>
+  <div class="fc-grid" id="fcGrid"></div>
+</section>
+
+<!-- MCQ -->
+<section class="section" id="mcq">
+  <div class="section-badge">Practice</div>
+  <h2>Practice MCQ — 30 Questions</h2>
+  <div class="mcq-score-bar">
+    <div class="score-display" id="scoreDisplay">0/0</div>
+    <div class="score-label">answered correctly — work through all questions below</div>
+  </div>
+  <div id="mcqContainer"></div>
+</section>
+
+<!-- CHEAT SHEET -->
+<section class="section" id="cheatsheet">
+  <div class="section-badge">Quick Reference</div>
+  <h2>Cheat Sheet</h2>
+  <div class="cheat-grid">
+    <div class="cheat-card"><h4>Key Vault RBAC Roles</h4><pre>Administrator   Full control, manage access
+Secrets Officer CRUD on secrets
+Secrets User    GET (read value) only
+Reader          Metadata only (no values)
+Crypto Officer  CRUD on keys + crypto ops
+Crypto User     Encrypt/decrypt/sign only</pre></div>
+    <div class="cheat-card"><h4>Key Vault Reference Syntax</h4><pre>Format 1 (latest version — RECOMMENDED):
+@Microsoft.KeyVault(VaultName=vault;
+                    SecretName=name)
+
+Format 2 (specific version):
+@Microsoft.KeyVault(SecretUri=
+  https://vault.vault.azure.net/
+  secrets/name/version)</pre></div>
+    <div class="cheat-card"><h4>KV Rotation Events (Event Grid)</h4><pre>SecretNearExpiry  — 30 days before expiry
+SecretExpired     — On expiry date
+SecretNewVersionCreated — After set_secret()
+
+Pattern:
+Key Vault → Event Grid → Azure Function
+→ set_secret(new_value) → new version</pre></div>
+    <div class="cheat-card"><h4>App Config Sentinel Pattern</h4><pre>1. Watch App:Sentinel key only
+2. Set refresh_interval (default 30s)
+3. When sentinel ETag changes → reload ALL keys
+
+Python:
+config = load(...,
+  refresh_on=[WatchKey("App:Sentinel")],
+  refresh_interval=timedelta(seconds=30)
+)
+config.refresh()  # in request handler</pre></div>
+    <div class="cheat-card"><h4>OpenTelemetry Hierarchy</h4><pre>Trace (operation_Id)
+  └── Root Span (request)
+       ├── Child Span (vector search)
+       │     attributes: db.system=cosmosdb
+       └── Child Span (LLM call)
+             attributes: ai.model=gpt-4
+
+W3C propagation:
+traceparent: 00-{traceId}-{spanId}-01</pre></div>
+    <div class="cheat-card"><h4>OTel Python Setup</h4><pre>pip install azure-monitor-opentelemetry
+
+from azure.monitor.opentelemetry import (
+    configure_azure_monitor
+)
+configure_azure_monitor(
+    connection_string=os.environ[
+        "APPLICATIONINSIGHTS_CONNECTION_STRING"]
+)
+# Call ONCE at startup before any clients</pre></div>
+    <div class="cheat-card"><h4>KQL Core Patterns</h4><pre>Error rate:
+requests | where timestamp > ago(1h)
+| summarize total=count(),
+    errs=countif(success==false)
+| extend rate = 100.0*errs/total
+
+P95 latency:
+requests | summarize
+    p95=percentile(duration,95) by name
+
+Trace correlation:
+union requests,dependencies,exceptions
+| where operation_Id == "abc123"</pre></div>
+    <div class="cheat-card"><h4>KQL Time Buckets</h4><pre>// 5-minute buckets
+requests
+| where timestamp > ago(1h)
+| summarize count() by
+    name, bin(timestamp, 5m)
+| render timechart
+
+// ago() duration suffixes:
+// m=min, h=hour, d=day, w=week
+// ago(7d), ago(24h), ago(30m)</pre></div>
+  </div>
+</section>
+
+<!-- GLOSSARY -->
+<section class="section" id="glossary">
+  <div class="section-badge">Reference</div>
+  <h2>Glossary</h2>
+  <input class="glossary-filter" id="glossaryFilter" type="text" placeholder="Filter terms..." oninput="filterGlossary()">
+  <div class="table-wrap">
+    <table class="glossary-table">
+      <thead><tr><th>Term</th><th>Definition</th></tr></thead>
+      <tbody id="glossaryBody"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- LAST-MINUTE TIPS -->
+<section class="section" id="tips">
+  <div class="section-badge">Exam Day</div>
+  <h2>Last-Minute Tips</h2>
+  <ol class="tips-list">
+    <li>Key Vault Secrets User (read-only) vs Secrets Officer (CRUD) — App Services and Functions using KV References only need Secrets User role.</li>
+    <li>set_secret() always creates a NEW version — it never overwrites. The new version becomes the latest active. Old versions remain accessible by version ID.</li>
+    <li>Soft delete is ON by default. Deleted secrets enter 7–90 day retention. Purge protection (once enabled) is irreversible and prevents all purges during retention.</li>
+    <li>Key Vault References use <code>@Microsoft.KeyVault(VaultName=...;SecretName=...)</code> syntax. The app reads it as a normal env var — no SDK code needed.</li>
+    <li>VaultName;SecretName (no version) always resolves to the latest ENABLED version — this is the right choice for secrets that rotate automatically.</li>
+    <li>Event Grid emits <code>SecretNearExpiry</code> 30 days before expiry, NOT 7 days or 14 days. Know this number for the exam.</li>
+    <li>App Configuration Data Reader role (not Owner) is all an application needs at runtime for reading config values.</li>
+    <li>The sentinel key pattern: update ONE key to trigger reload of ALL watched settings. The SDK polls sentinel; when its ETag changes, all keys reload.</li>
+    <li>Feature flags in App Config are stored under the prefix <code>.appconfig.featureflag/</code> — they are special key-value pairs, not a separate storage type.</li>
+    <li>OpenTelemetry spans form a tree: trace (root) → span → child spans. The trace_id is shared; span_id is unique per span.</li>
+    <li>W3C traceparent header format: <code>00-{traceId32hex}-{spanId16hex}-{flags}</code>. Flags=01 means sampled.</li>
+    <li>configure_azure_monitor() must be called ONCE at app startup, BEFORE creating any HTTP clients, DB connections, or AI clients — so auto-instrumentation hooks are registered first.</li>
+    <li>KQL <code>where timestamp > ago(1h)</code> — always add a time filter first for performance. Missing time filter on large tables = timeout.</li>
+    <li>KQL <code>summarize percentile(duration, 95) by name</code> — the p95 pattern is extremely common in AI-200 exam KQL questions.</li>
+    <li>KQL <code>union requests, dependencies, exceptions | where operation_Id == "..."</code> — the distributed trace correlation pattern shows all telemetry for one end-to-end request.</li>
+  </ol>
+</section>
+
+</main>
+
+<script>
+const flashcards=[
+{q:"Key Vault Secrets User vs Secrets Officer — what's the difference?",a:"Secrets User: read (GET) only. Secrets Officer: CRUD — create, read, update, delete, list, recover, backup secrets.",tag:"Key Vault"},
+{q:"What does set_secret() do if the secret already exists?",a:"Creates a new VERSION — does not overwrite. Each call creates a new version. Latest enabled version is returned by get_secret() without version.",tag:"Key Vault"},
+{q:"Key Vault Reference syntax for 'always latest version' — which format?",a:"@Microsoft.KeyVault(VaultName=myvault;SecretName=mykey) — omit SecretVersion to always resolve to latest enabled version.",tag:"Key Vault"},
+{q:"What does soft delete mean for Key Vault secrets?",a:"Deleted secrets enter a deleted state for 7–90 days. They can be recovered during this period. Purge (permanent delete) is separate. Soft delete is ON by default.",tag:"Key Vault"},
+{q:"Which Event Grid event fires 30 days before a Key Vault secret expires?",a:"Microsoft.KeyVault.SecretNearExpiry — triggers rotation function to set new secret version before expiry.",tag:"Key Vault"},
+{q:"What RBAC role does an App Service need to use Key Vault References?",a:"Key Vault Secrets User — allows GET (read value) on secrets. Assigned to the system-assigned managed identity.",tag:"Key Vault"},
+{q:"What is Purge Protection in Key Vault?",a:"When enabled, prevents permanent deletion of secrets/keys/certs during soft-delete retention period — even by admins. Enabling it is IRREVERSIBLE.",tag:"Key Vault"},
+{q:"Which SDK class is used to read/write Key Vault secrets in Python?",a:"SecretClient from azure.keyvault.secrets. Initialize with vault_url and DefaultAzureCredential().",tag:"Key Vault"},
+{q:"What is the Sentinel Key pattern in App Configuration?",a:"Watch ONE sentinel key for ETag changes instead of all keys. When sentinel changes, reload all registered configuration settings. Minimizes polling calls.",tag:"App Config"},
+{q:"App Config labels — what problem do they solve?",a:"Labels allow the same key to have different values per environment (dev, staging, production). App reads settings by key + label combination.",tag:"App Config"},
+{q:"What RBAC roles does an application need for Azure App Configuration?",a:"App Configuration Data Reader (read settings) for runtime. App Configuration Data Owner for admin/deployment pipelines.",tag:"App Config"},
+{q:"How are Feature Flags stored in App Configuration?",a:"As key-value pairs with key prefix '.appconfig.featureflag/' and special JSON value with enabled/conditions/filters fields.",tag:"App Config"},
+{q:"Microsoft.Percentage feature filter — what does it do?",a:"Enables a feature flag for a specified percentage (0–100) of requests based on random sampling. Used for gradual/canary rollouts.",tag:"App Config"},
+{q:"App Config vs Key Vault — when to use each?",a:"App Config: non-secret settings, feature flags, environment config. Key Vault: passwords, API keys, connection strings, certs. Use KV References in App Config to point to secrets.",tag:"App Config"},
+{q:"What is a Trace in OpenTelemetry?",a:"The end-to-end journey of a single request across all services. Identified by a 128-bit trace_id. Contains one or more spans forming a tree.",tag:"OpenTelemetry"},
+{q:"What is a Span in OpenTelemetry?",a:"A single named, timed operation within a trace. Has span_id, parent_span_id, start/end time, status (OK/ERROR/UNSET), attributes, and events.",tag:"OpenTelemetry"},
+{q:"What is the W3C TraceContext header format?",a:"traceparent: 00-{traceId(32hex)}-{spanId(16hex)}-{flags(2hex)}. flags=01 means sampled. This header propagates trace context across HTTP calls.",tag:"OpenTelemetry"},
+{q:"OTel vs Legacy Application Insights SDK — which is recommended?",a:"OpenTelemetry (azure-monitor-opentelemetry). Legacy AI SDK is being deprecated. OTel is vendor-neutral CNCF standard.",tag:"OpenTelemetry"},
+{q:"KQL: how do you count failed requests in last 1 hour?",a:"requests | where timestamp > ago(1h) | where success == false | summarize count() by resultCode",tag:"KQL"},
+{q:"KQL: what does bin(timestamp, 5m) do?",a:"Rounds timestamp down to the nearest 5-minute bucket. Used in summarize...by to group events into time buckets for time series charts.",tag:"KQL"}
+];
+
+const mcqData=[
+{q:"An application needs to read a Key Vault secret at runtime without SDK code. The App Service has a system-assigned managed identity. Which configuration is required?",opts:["Set app setting to @Microsoft.KeyVault(VaultName=vault;SecretName=name) and assign Key Vault Secrets User role to managed identity","Add azure-keyvault-secrets to requirements.txt and use SecretClient in code","Configure Key Vault firewall to allow App Service IP addresses","Set app setting to the actual secret value"],ans:0,exp:"Key Vault References require: 1) app setting with @Microsoft.KeyVault(...) syntax, 2) system-assigned managed identity enabled, 3) Key Vault Secrets User role assigned to the managed identity. No SDK code needed."},
+{q:"A developer calls client.set_secret('db-password', 'newpassword123'). The secret 'db-password' already exists. What happens?",opts:["A new version of the secret is created; the previous version remains accessible by its version ID","The existing secret value is overwritten in place","An error is thrown — use update_secret_properties() instead","The secret is soft-deleted and recreated"],ans:0,exp:"set_secret() always creates a new version. The new version becomes the latest active version. Old versions remain in the vault accessible by their specific version ID. update_secret_properties() only changes metadata (enabled, expiry), not the value."},
+{q:"Which Key Vault RBAC role allows an application to only retrieve secret values at runtime?",opts:["Key Vault Secrets User","Key Vault Secrets Officer","Key Vault Reader","Key Vault Administrator"],ans:0,exp:"Key Vault Secrets User allows GET (read values) only. Secrets Officer allows full CRUD. Key Vault Reader allows reading metadata but NOT values. For applications that only read secrets, always assign the minimum Secrets User role."},
+{q:"Purge protection is enabled on a Key Vault. A secret is soft-deleted. What can an administrator do?",opts:["Wait for the retention period to expire — purge is not possible until then","Purge immediately using the purge_deleted_secret() API","Disable purge protection and then purge","Force-purge using the Azure Portal"],ans:0,exp:"With purge protection enabled, even administrators cannot purge secrets during the soft-delete retention period (7–90 days). The only option is to wait. This is why enabling purge protection is irreversible — it's a strong compliance guarantee."},
+{q:"You need to rotate a Key Vault secret before it expires. Which Azure service detects the impending expiry and triggers the rotation workflow?",opts:["Azure Event Grid — emits Microsoft.KeyVault.SecretNearExpiry event 30 days before expiry","Azure Monitor — sends an alert email","Azure Logic Apps — polls Key Vault daily","Azure Automation — runs a scheduled runbook"],ans:0,exp:"Key Vault emits SecretNearExpiry via Event Grid 30 days before the configured expiry date. This triggers an Azure Function or Logic App to generate a new credential and call set_secret(), creating a new version."},
+{q:"An App Service uses the Key Vault Reference @Microsoft.KeyVault(VaultName=myvault;SecretName=openai-key) without a SecretVersion. What version is resolved?",opts:["The latest ENABLED version of the secret","The first version created","Version 1 (initial)","A random version"],ans:0,exp:"Omitting SecretVersion always resolves to the latest ENABLED version. This is the recommended pattern for rotating secrets — after rotation creates a new version, all apps automatically pick it up on next refresh without any configuration change."},
+{q:"An Azure App Configuration store has the key 'App:Model' with no label set to 'gpt-4', and with label 'Production' set to 'gpt-4o'. A .NET app calls Select('App:*', LabelFilter.Null) then Select('App:*', 'Production'). What value does it read for App:Model?",opts:["gpt-4o — the Production label overrides the null-label value","gpt-4 — null label takes precedence","Error — duplicate key","gpt-4 (null label) because it was loaded first"],ans:0,exp:"The second Select() call overrides any key already loaded by the first. By loading null label first, then Production label, Production values override defaults. This is the standard fallback pattern: load defaults, then override with environment-specific labels."},
+{q:"Which App Configuration feature lets you watch for configuration changes without polling every individual key?",opts:["Sentinel Key pattern — watch one key, reload all when it changes","ETags on every key","WebSocket push notifications","Azure Service Bus integration"],ans:0,exp:"The Sentinel Key pattern designates one key as a 'change trigger'. The SDK polls only the sentinel at the configured interval. When the sentinel's ETag changes (you updated it), the SDK reloads all registered configuration — minimizing polling API calls."},
+{q:"What is the purpose of a Feature Flag in Azure App Configuration?",opts:["Enable or disable application features at runtime without redeployment","Store encrypted feature secrets","Define compute scaling rules","Configure network routing"],ans:0,exp:"Feature flags allow toggling features on/off at runtime through configuration changes, without code deployment. They support gradual rollout via filters (Percentage, TimeWindow, Targeting)."},
+{q:"An application uses azure-appconfiguration-provider with refresh_on=[WatchKey('App:Sentinel')]. How do you trigger a configuration reload in all running instances?",opts:["Update the App:Sentinel key value in App Configuration — all instances reload within the refresh interval","Restart all application instances","Delete and recreate the App Configuration store","Call the App Configuration REST API endpoint"],ans:0,exp:"Updating the sentinel key's value changes its ETag. Next time each instance calls config.refresh() (polled at refresh_interval), it detects the ETag change and reloads all registered configuration keys from App Configuration."},
+{q:"What is a Trace in OpenTelemetry?",opts:["The complete end-to-end journey of a request across all services, identified by a 128-bit trace_id","A single log message with a timestamp","An aggregated metric measurement","A health check result"],ans:0,exp:"A trace represents an end-to-end request journey. It's composed of spans (individual operations). All spans in a trace share the same trace_id. In Application Insights, trace_id maps to operation_Id."},
+{q:"Which OpenTelemetry attribute value correctly identifies the HTTP status of a failed response?",opts:["span.set_attribute('http.status_code', 500) and span.set_status(StatusCode.ERROR)","span.set_attribute('status', 'failed')","span.record_exception(exception) only","span.add_event('http_error', {'code': 500})"],ans:0,exp:"Set both the HTTP semantic attribute (http.status_code) AND the span status (StatusCode.ERROR with description). record_exception() also records the stack trace. Both together give complete observability."},
+{q:"Where must configure_azure_monitor() be called in a Python application?",opts:["Once at application startup, BEFORE creating any HTTP clients or DB connections","Once per request handler","In each function that makes external calls","In the requirements.txt file"],ans:0,exp:"configure_azure_monitor() must be called ONCE at startup BEFORE creating any other clients. This registers the auto-instrumentation hooks. If called after creating clients, those clients won't be instrumented."},
+{q:"What OpenTelemetry sampling strategy ensures that if a trace is sampled, ALL spans in that trace are also sampled?",opts:["ParentBased — inherits the sampling decision from the parent span","TraceIdRatioBased — samples based on trace_id hash","AlwaysOn — samples everything","AlwaysOff — samples nothing"],ans:0,exp:"ParentBased is the default strategy. If a parent span is sampled (or if there's no parent), the sampling decision propagates to all child spans. This ensures complete traces rather than partial ones."},
+{q:"In the W3C traceparent header '00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01', what does '01' represent?",opts:["Trace flags — '01' means the trace is sampled","The format version","The parent span ID suffix","The service instance count"],ans:0,exp:"The last 2-hex-digit field in traceparent is trace-flags. '01' means the trace is sampled (recorded). '00' means not sampled. The first '00' is the format version, the 32-hex field is trace_id, the 16-hex field is span_id."},
+{q:"A KQL query needs to find the 95th percentile response time for each endpoint in the last 24 hours. Which query is correct?",opts:["requests | where timestamp > ago(24h) | summarize p95=percentile(duration,95) by name","requests | where timestamp > ago(24h) | extend p95=duration*0.95","requests | where timestamp > ago(24h) | top 95 by duration","requests | summarize avg(duration) by name | where avg_duration > 95"],ans:0,exp:"summarize percentile(column, N) computes the Nth percentile across all values in each group. Grouped by name gives the p95 per endpoint. This is a very common pattern in AI-200 exam KQL questions."},
+{q:"Which KQL operator would you use to add a calculated column showing duration in seconds (duration is in milliseconds)?",opts:["extend durationSec = duration / 1000.0","project durationSec = duration / 1000.0","summarize durationSec = avg(duration) / 1000","where duration / 1000 > 1"],ans:0,exp:"extend adds a computed column to each row without removing other columns. project selects/renames columns (drops unmentioned ones). Use extend when you want to add a calculation while keeping all existing columns."},
+{q:"How do you correlate all telemetry (requests, dependencies, exceptions, traces) for a single end-to-end operation in KQL?",opts:["union requests,dependencies,exceptions,traces | where operation_Id == 'abc123'","join requests with dependencies on operation_Id | join exceptions | join traces","requests | where id == 'abc123'","traces | where correlationId == 'abc123'"],ans:0,exp:"operation_Id in Application Insights = trace_id in OpenTelemetry. Using union across all tables and filtering by operation_Id gives a complete view of one distributed request. Order by timestamp asc to see the execution sequence."},
+{q:"What does 'summarize count() by bin(timestamp, 5m)' produce?",opts:["A count of events grouped into 5-minute time buckets","The sum of all timestamps rounded to 5 minutes","The average count per 5-minute period","A running total every 5 minutes"],ans:0,exp:"bin(timestamp, 5m) rounds each timestamp down to the nearest 5-minute boundary, creating time buckets. summarize count() by bin(timestamp, 5m) counts events in each 5-minute window — used for time series visualization with render timechart."},
+{q:"A KQL query returns an empty result when run against Application Insights for the last 7 days. The most likely cause is:",opts:["Missing 'where timestamp > ago(7d)' filter — default query may not include old data","Incorrect table name","Missing 'project' operator","The 'summarize' operator filtering out results"],ans:0,exp:"Application Insights queries in the portal default to a time range but custom queries may not. Always explicitly add 'where timestamp > ago(Nd)' to ensure you're querying the right time range and not getting empty results due to time boundary issues."},
+{q:"Which Key Vault RBAC role allows an application to ENCRYPT data using a Key Vault key but not manage the key itself?",opts:["Key Vault Crypto User","Key Vault Crypto Officer","Key Vault Secrets User","Key Vault Reader"],ans:0,exp:"Key Vault Crypto User: perform cryptographic operations (encrypt, decrypt, sign, verify) with existing keys but cannot manage keys. Crypto Officer: full key management plus crypto ops."},
+{q:"An App Service has the app setting OPENAI_API_KEY=@Microsoft.KeyVault(VaultName=vault;SecretName=key). The managed identity does not have any Key Vault RBAC role. What happens at runtime?",opts:["The app fails to start or the secret reference shows as 'Invalid' in app settings","The app reads the literal string '@Microsoft.KeyVault(...)' as the value","The app falls back to an empty string","A KeyNotFoundException is thrown at deploy time"],ans:0,exp:"When Key Vault Reference resolution fails (no permission, wrong vault name, deleted secret), the app setting status shows 'Invalid' in the Azure Portal. The app may fail to start or the env variable may be empty/reference string. The managed identity MUST have Secrets User role."},
+{q:"An App Configuration Feature Flag uses the Microsoft.Targeting filter. What does this filter enable?",opts:["Enable the feature for specific users, user groups, and a percentage of all other users","Enable based on geographic region","Enable only during business hours","Enable based on HTTP request headers"],ans:0,exp:"Microsoft.Targeting filter allows targeting by: specific user IDs, group membership, and a default rollout percentage for everyone else. It's the most granular filter for A/B testing and controlled rollouts."},
+{q:"What is the difference between span.add_event() and span.set_attribute() in OpenTelemetry?",opts:["add_event() is a time-stamped annotation at a point in time. set_attribute() is metadata valid for the span's full duration.","add_event() is for errors only. set_attribute() is for all other metadata.","They are identical — both store key-value pairs on the span","add_event() is deprecated; use set_attribute() instead"],ans:0,exp:"span.set_attribute('key', 'value') sets span-level metadata (valid for the whole span). span.add_event('name', attributes) records a time-stamped point event within the span's lifecycle — like a detailed log entry at a specific moment during execution."},
+{q:"How many App Configuration keys can be stored in the Free tier?",opts:["10 MB storage limit and 1,000 requests per day","Unlimited keys but 100 requests per day","100 keys with unlimited requests","5 MB storage with 10,000 requests per day"],ans:0,exp:"App Configuration Free tier: 10 MB storage and 1,000 requests per day. Standard tier: unlimited storage and requests. For production AI applications, Standard tier is required to handle high request volume."},
+{q:"Which KQL function counts unique values of a column approximately?",opts:["dcount(column)","count(column)","countif(column != '')","distinct(column)"],ans:0,exp:"dcount() performs a distinct count using HyperLogLog algorithm (approximate but very fast). For exact distinct count use count(distinct column). dcount is preferred for large datasets where approximation is acceptable."},
+{q:"A KQL alert query must only trigger when there are at least 10 requests to avoid false positives on low traffic. Which filter achieves this?",opts:["| where total > 10 after the summarize that calculates total=count()","| where count() > 10","| take 10","| limit 10"],ans:0,exp:"After summarizing (summarize total=count(), errors=countif(success==false)), add '| where total > 10' to filter out time windows with insufficient data. This prevents divide-by-zero errors and false alert triggers on low traffic."},
+{q:"What is the correct Python call to record an exception on an OpenTelemetry span?",opts:["span.record_exception(exception) followed by span.set_status(StatusCode.ERROR, str(exception))","span.add_event('error', {'message': str(exception)})","span.set_attribute('error', str(exception))","logging.exception('error')"],ans:0,exp:"span.record_exception() captures the full stack trace and exception details. span.set_status(StatusCode.ERROR) marks the span as failed. Both are needed for complete error observability — record_exception alone doesn't change the span status."},
+{q:"Where is the Application Insights connection string found in the Azure Portal?",opts:["Application Insights resource → Overview blade → Connection String","Key Vault → Secrets","App Configuration → Feature Flags","Azure Monitor → Workbooks"],ans:0,exp:"The connection string (format: InstrumentationKey=xxx;IngestionEndpoint=https://...) is on the Application Insights resource's Overview blade. Set it as APPLICATIONINSIGHTS_CONNECTION_STRING environment variable for configure_azure_monitor() to pick it up automatically."},
+{q:"KQL render command: which visualization type is best for showing request count over time?",opts:["render timechart","render barchart","render piechart","render table"],ans:0,exp:"render timechart creates a line chart with time on the X-axis — ideal for showing trends over time (request count, error rate, latency). barchart is for categorical comparison. piechart shows proportions. table shows raw data."}
+];
+
+const glossary=[
+{t:"Key Vault Secret",d:"Arbitrary text value (password, connection string, API key) stored securely in Key Vault. Accessed via SecretClient.get_secret()."},
+{t:"Key Vault Reference",d:"App setting value starting with @Microsoft.KeyVault(...) that App Service/Functions resolves at runtime. No SDK code needed."},
+{t:"Soft Delete",d:"Key Vault feature (on by default) where deleted objects enter a recovery period (7–90 days) before permanent deletion."},
+{t:"Purge Protection",d:"Key Vault setting preventing permanent deletion during soft-delete retention. Irreversible once enabled."},
+{t:"SecretNearExpiry",d:"Event Grid event emitted by Key Vault 30 days before a secret's configured expiry date. Triggers rotation workflows."},
+{t:"Key Vault Secrets User",d:"RBAC role allowing GET (read value) on secrets. Minimum role needed by applications using Key Vault."},
+{t:"Key Vault Secrets Officer",d:"RBAC role allowing full CRUD on secrets (create, read, update, delete, list, recover, backup)."},
+{t:"Azure App Configuration",d:"Managed service for centralized key-value configuration, feature flags, labels, and Key Vault references."},
+{t:"Label (App Config)",d:"Dimension on App Config key-values enabling multiple values for same key per environment (dev/staging/prod)."},
+{t:"Feature Flag",d:"Special App Config key-value enabling features at runtime via Microsoft.FeatureManagement SDK without redeployment."},
+{t:"Sentinel Key",d:"Designated App Config key watched for ETag changes to trigger full configuration reload — minimizes polling calls."},
+{t:"Snapshot (App Config)",d:"Immutable point-in-time capture of App Config key-values. Used for audit, rollback, and consistent deployments."},
+{t:"OpenTelemetry",d:"CNCF open-source observability standard for traces, metrics, and logs. Vendor-neutral SDK."},
+{t:"Trace",d:"OTel concept: end-to-end request journey across services. Identified by 128-bit trace_id (= operation_Id in App Insights)."},
+{t:"Span",d:"OTel concept: single named operation within a trace. Has span_id, parent_span_id, attributes, events, status, start/end time."},
+{t:"Attributes",d:"OTel span metadata: key-value pairs describing the operation (db.system, http.status_code, ai.model)."},
+{t:"traceparent",d:"W3C TraceContext header: 00-{traceId32hex}-{spanId16hex}-{flags}. Propagates trace context across HTTP service boundaries."},
+{t:"configure_azure_monitor()",d:"Single Python call that sets up OTel SDK, auto-instrumentation, and Azure Monitor exporter. Call once at app startup."},
+{t:"KQL (Kusto Query Language)",d:"Query language for Azure Monitor Log Analytics and Application Insights. Uses pipe (|) to chain operators."},
+{t:"bin(timestamp, 5m)",d:"KQL function rounding timestamp down to nearest 5-minute bucket. Used in summarize for time-series grouping."},
+{t:"percentile(col, N)",d:"KQL aggregation function computing Nth percentile of a numeric column. percentile(duration, 95) = p95 latency."},
+{t:"operation_Id",d:"Application Insights column = OpenTelemetry trace_id. Used to correlate all telemetry from one end-to-end request."}
+];
+
+let scoreCorrect=0,scoreTotal=0;
+
+function renderFlashcards(){
+  const g=document.getElementById('fcGrid');
+  g.innerHTML=flashcards.map((c,i)=>`
+    <div class="flashcard" id="fc${i}" onclick="this.classList.toggle('flipped')">
+      <div class="fc-inner">
+        <div class="fc-front"><span class="fc-tag">${c.tag}</span><p>${c.q}</p></div>
+        <div class="fc-back"><span class="fc-tag">${c.tag}</span><p>${c.a}</p></div>
+      </div>
+    </div>`).join('');
+}
+
+function renderMCQ(){
+  const c=document.getElementById('mcqContainer');
+  c.innerHTML=mcqData.map((q,qi)=>`
+    <div class="mcq-question" id="mcq${qi}">
+      <p>${qi+1}. ${q.q}</p>
+      <div class="mcq-options">${q.opts.map((o,oi)=>`
+        <label><input type="radio" name="q${qi}" value="${oi}"> ${o}</label>`).join('')}
+      </div>
+      <button class="mcq-submit" onclick="checkMCQ(${qi})">Check Answer</button>
+      <div class="mcq-explanation" id="exp${qi}"></div>
+    </div>`).join('');
+}
+
+function checkMCQ(qi){
+  const sel=document.querySelector(`input[name="q${qi}"]:checked`);
+  const exp=document.getElementById(`exp${qi}`);
+  const btn=document.querySelector(`#mcq${qi} .mcq-submit`);
+  if(!sel){exp.style.display='block';exp.className='mcq-explanation info';exp.textContent='Please select an answer.';return;}
+  btn.disabled=true;
+  const correct=parseInt(sel.value)===mcqData[qi].ans;
+  if(correct)scoreCorrect++;
+  scoreTotal++;
+  document.getElementById('scoreDisplay').textContent=`${scoreCorrect}/${scoreTotal}`;
+  exp.style.display='block';
+  exp.className='mcq-explanation '+(correct?'correct':'incorrect');
+  exp.innerHTML=`<strong>${correct?'✓ Correct!':'✗ Incorrect.'}</strong> ${mcqData[qi].exp}`;
+}
+
+function renderGlossary(){
+  const b=document.getElementById('glossaryBody');
+  b.innerHTML=glossary.map(g=>`<tr data-term="${g.t.toLowerCase()}"><td><strong>${g.t}</strong></td><td>${g.d}</td></tr>`).join('');
+}
+
+function filterGlossary(){
+  const v=document.getElementById('glossaryFilter').value.toLowerCase();
+  document.querySelectorAll('#glossaryBody tr').forEach(r=>{
+    r.style.display=r.dataset.term.includes(v)||r.cells[1].textContent.toLowerCase().includes(v)?'':'none';
+  });
+}
+
+window.addEventListener('scroll',()=>{
+  const d=document.documentElement;
+  const pct=Math.round((d.scrollTop/(d.scrollHeight-d.clientHeight))*100)||0;
+  document.getElementById('progressBar').style.width=pct+'%';
+  document.getElementById('progressLabel').textContent=pct+'%';
+  document.querySelectorAll('.section').forEach(s=>{
+    const a=document.querySelector(`.sidebar a[href="#${s.id}"]`);
+    if(a){
+      const r=s.getBoundingClientRect();
+      a.classList.toggle('active',r.top<=80&&r.bottom>80);
+    }
+  });
+});
+
+renderFlashcards();
+renderMCQ();
+renderGlossary();
+</script>
+</body>
+</html>
